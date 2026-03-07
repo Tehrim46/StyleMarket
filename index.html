@@ -1,34 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>StyleMarket Sign Up</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Sign Up</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
+
 <body>
+  <main class="page">
+    <section class="card">
+      <h1 class="brand">StyleMarket</h1>
 
-    <h1 class="title">StyleMarket</h1>
-    <div class="outer-box">
-        <div class="inner-box">
-            <h2>Sign Up</h2>
+      <div class="tabs">
+        <button id="tabLogin" class="tab is-active" type="button">Login</button>
+        <button id="tabSignup" class="tab" type="button">Sign Up</button>
+        <span class="tabs__slider"></span>
+      </div>
 
-            <form>
+      <p class="subtext" id="subtext">Welcome back. Log in to continue.</p>
 
-                <label>Email</label>
-                <input type="email">
+      <form id="loginForm" class="form is-visible">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="loginEmail" placeholder="" required>
+        </label>
 
-                <label>Password</label>
-                <input type="password">
+        <label class="field">
+          <span>Password</span>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </label>
 
-                <label>Confirm Password</label>
-                <input type="password">
+        <button class="btn" type="submit">Login</button>
+        <p class="hint" id="loginHint"></p>
+      </form>
 
-                <button type="submit">
-                    Create Account
-                </button>
-            </form>
-        </div>
-    </div>
-<script src="app.css"></script>
+      <form id="signupForm" class="form">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" id="signupName" 
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="signupEmail" 
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <input type="password" id="signupPassword" placeholder="••••••••" required>
+        </label>
+        <label class="field">
+          <span>Confirm Password</span>
+          <input type="password" id="signupConfirm" 
+        </label>
+
+        <button class="btn" type="submit">Create Account</button>
+        <p class="hint" id="signupHint"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
 </body>
 </html>
