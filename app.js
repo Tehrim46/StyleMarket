@@ -1,27 +1,52 @@
-const form = document.querySelector("form");
+const tabs = document.querySelector(".tabs");
+const tabLogin = document.getElementById("tabLogin");
+const tabSignup = document.getElementById("tabSignup");
 
-form.addEventListener("submit", function(event){
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
 
-    event.preventDefault(); // stops page refresh
+const subtext = document.getElementById("subtext");
+const loginHint = document.getElementById("loginHint");
+const signupHint = document.getElementById("signupHint");
 
-    const email = document.querySelectorAll("input")[0].value;
-    const password = document.querySelectorAll("input")[1].value;
-    const confirmPassword = document.querySelectorAll("input")[2].value;
+function setMode(mode){
+  const isSignup = mode === "signup";
 
-    if(email === "" || password === "" || confirmPassword === ""){
+  tabs.dataset.mode = isSignup ? "signup" : "login";
+  tabLogin.classList.toggle("is-active", !isSignup);
+  tabSignup.classList.toggle("is-active", isSignup);
 
-        alert("Please fill in all fields");
+  loginForm.classList.toggle("is-visible", !isSignup);
+  signupForm.classList.toggle("is-visible", isSignup);
 
-        return;
-    }
+  subtext.textContent = isSignup
+    ? "Create your account."
+    : "Welcome! Log in to continue.";
 
-    if(password !== confirmPassword){
+  loginHint.textContent = "";
+  signupHint.textContent = "";
+}
 
-        alert("Passwords do not match");
-        return;
-    }
-    
-    // success message
-    alert("Account created (prototype)");
+tabLogin.addEventListener("click", () => setMode("login"));
+tabSignup.addEventListener("click", () => setMode("signup"));
 
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  loginHint.textContent = "Login form submitted (demo).";
 });
+
+signupForm.addEventListener("submit", (e) => {
+e.preventDefault();
+
+const pass = document.getElementById("signupPassword").value;
+const confirm = document.getElementById("signupConfirm").value;
+
+if(pass !== confirm){
+signupHint.textContent = "Passwords do not match.";
+return;
+}
+
+signupHint.textContent = "Account created (demo).";
+});
+
+setMode("login");
