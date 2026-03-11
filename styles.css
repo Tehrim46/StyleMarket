@@ -1,3 +1,4 @@
+/* Color variables used across the website */
 :root{
   --text:#0f172a;
   --muted:#64748b;
@@ -8,8 +9,10 @@
   --grad: linear-gradient(90deg, var(--pink1), var(--pink2));
 }
 
+/* Reset and box model */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
+
 body{
   margin:0;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,6 +20,7 @@ body{
   color:var(--text);
 }
 
+/* Center the card on the page */
 .page{
   min-height:100%;
   display:grid;
@@ -24,6 +28,7 @@ body{
   padding:24px;
 }
 
+/* Main container card */
 .card{
   width:500px;
   border:1px solid var(--border);
@@ -34,11 +39,13 @@ body{
   text-align:center;
 }
 
+/* Website title */
 .brand{
   margin:0 0 14px;
   font-size: 40px;
 }
 
+/* Tabs container */
 .tabs{
   position:relative;
   display:grid;
@@ -51,6 +58,7 @@ body{
   margin-bottom:12px;
 }
 
+/* Individual tab buttons */
 .tab{
   z-index:2;
   border:0;
@@ -65,8 +73,10 @@ body{
   font-size:18px;
 }
 
+/* Active tab styling */
 .tab.is-active{ color:#fff; }
 
+/* Sliding highlight under active tab */
 .tabs__slider{
   position:absolute;
   inset:6px;
@@ -77,22 +87,31 @@ body{
   transform:translateX(0);
 }
 
+/* Move slider when signup tab is active */
 .tabs[data-mode="signup"] .tabs__slider{
   transform:translateX(100%);
 }
 
+/* Text under tabs */
 .subtext{
   margin:0 0 14px;
   color:var(--muted);
   font-size:18px;
 }
 
+/* Forms are hidden by default */
 .form{ display:none; gap:12px; text-align:left; }
+
+/* Visible form */
 .form.is-visible{ display:grid; }
 
+/* Input field layout */
 .field{ display:grid; gap:8px; }
+
+/* Field labels */
 .field span{ font-size:17px; color:var(--muted); font-weight:700; }
 
+/* Input styling */
 input{
   width:100%;
   padding:16px;
@@ -102,11 +121,13 @@ input{
   outline:none;
 }
 
+/* Input focus effect */
 input:focus{
   border-color: rgba(124,58,237,.45);
   box-shadow:0 0 0 4px rgba(124,58,237,.12);
 }
 
+/* Button styling */
 .btn{
   border:0;
   cursor:pointer;
@@ -119,6 +140,7 @@ input:focus{
   margin-top:4px;
 }
 
+/* Small message under forms */
 .hint{
   margin:0;
   min-height:18px;
