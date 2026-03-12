@@ -18,6 +18,5 @@ StyleMarket is a web-based buy-and-sell platform designed to provide a simple an
 
 
 
-
-
+# Installation & Execution Instructions
 PROJECT IN DEVELOPMENT
