@@ -8,7 +8,7 @@ Design Process: Paper wireframes refined digitally in GoodNotes
 Development: Implemented in VS Code
 Version Control: GitHub for task tracking and collaboration
 
-Phase 1 – Frontend Application
+Phase 1 – Frontend Application:
 Sketched the layout to plan structure and user flow. 
 Digitized and refined the design in GoodNotes.
 Began development in VS Code.
