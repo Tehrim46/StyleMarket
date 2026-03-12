@@ -9,11 +9,11 @@ System Architecture (High-Level)
 - Version Control: GitHub for task tracking and collaboration
 
 Phase 1 – Frontend Application:
-Sketched the layout to plan structure and user flow. 
-Digitized and refined the design in GoodNotes.
-Began development in VS Code.
-Designed and customized the login page to match the site’s theme.
-Used GitHub to track completed, ongoing, and upcoming tasks.
+- Sketched the layout to plan structure and user flow. 
+- Digitized and refined the design in GoodNotes.
+- Began development in VS Code.
+- Designed and customized the login page to match the site’s theme.
+- Used GitHub to track completed, ongoing, and upcoming tasks.
 
 
 
