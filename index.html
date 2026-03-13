@@ -1,39 +1,32 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-
-  <!-- Makes the page responsive on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <title>Login / Sign Up</title>
-
-  <!-- Link to the external CSS styling file -->
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <main class="page">
     <section class="card">
 
-      <!-- Website title -->
       <h1 class="brand">StyleMarket</h1>
 
-      <!-- Tabs used to switch between Login and Sign Up -->
       <div class="tabs">
         <button id="tabLogin" class="tab is-active" type="button">Login</button>
         <button id="tabSignup" class="tab" type="button">Sign Up</button>
         <span class="tabs__slider"></span>
       </div>
 
-      <!-- Instruction text that changes depending on mode -->
       <p class="subtext" id="subtext">Welcome back. Log in to continue.</p>
 
       <!-- Login Form -->
       <form id="loginForm" class="form is-visible">
         <label class="field">
           <span>Email</span>
-          <input type="email" id="loginEmail" placeholder="" required>
+          <input type="email" id="loginEmail" required>
         </label>
 
         <label class="field">
@@ -41,10 +34,7 @@
           <input type="password" id="loginPassword" placeholder="••••••••" required>
         </label>
 
-        <!-- Login button -->
         <button class="btn" type="submit">Login</button>
-
-        <!-- Message displayed after login attempt -->
         <p class="hint" id="loginHint"></p>
       </form>
 
@@ -52,12 +42,12 @@
       <form id="signupForm" class="form">
         <label class="field">
           <span>Name</span>
-          <input type="text" id="signupName" 
+          <input type="text" id="signupName" required>
         </label>
 
         <label class="field">
           <span>Email</span>
-          <input type="email" id="signupEmail" 
+          <input type="email" id="signupEmail" required>
         </label>
 
         <label class="field">
@@ -67,19 +57,17 @@
 
         <label class="field">
           <span>Confirm Password</span>
-          <input type="password" id="signupConfirm" 
+          <input type="password" id="signupConfirm" placeholder="••••••••" required>
         </label>
 
-        <!-- Signup button -->
         <button class="btn" type="submit">Create Account</button>
-
-        <!-- Message displayed if signup succeeds or fails -->
         <p class="hint" id="signupHint"></p>
       </form>
+
     </section>
   </main>
 
-  <!-- Link JavaScript file that controls tab switching and form logic -->
-  <script src="./app.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>
