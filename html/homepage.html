@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StyleMarket</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- MAIN NAVIGATION BAR -->
+
+    <header>
+      <nav class="nav-container">
+        <!-- LOGO -->
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <!-- NAVIGATION ICONS -->
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#"><i class="fas fa-search"></i></a>
+          </li>
+
+          <li class="icon">
+            <a href="../index.html"><i class="fas fa-user"></i></a>
+          </li>
+
+          <!-- Wishlist -->
+          <li class="icon">
+            <a href="#"><i class="fas fa-heart"></i></a>
+          </li>
+
+          <li class="icon">
+            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- MAIN HOMEPAGE CONTENT -->
+
+    <main>
+      <!-- HERO / WELCOME SECTION -->
+
+      <section class="welcome">
+        <div class="welcome-overlay">
+          <h2>Welcome to StyleMarket</h2>
+          <p>Discover the latest fashion trends</p>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </section>
+
+      <!-- FEATURED PRODUCTS SECTION -->
+
+      <section class="featured-products">
+        <h2>Shop New Arrivals</h2>
+
+        <!-- NEW ARRIVALS PRODUCT GRID -->
+
+        <div class="product-grid">
+          <div class="product-card">
+            <img
+              src="../images/floral dress StyleMarket.webp"
+              class="product-img"
+            />
+            <h3>Floral Dress</h3>
+            <p>$45</p>
+          </div>
+
+          <div class="product-card">
+            <img src="../images/hightop.webp" class="product-img" />
+            <h3>Classic Sneakers</h3>
+            <p>$90</p>
+          </div>
+
+          <div class="product-card">
+            <img src="../images/bluecap.webp" class="product-img" />
+            <h3>Baseball Cap</h3>
+            <p>$65</p>
+          </div>
+
+          <div class="product-card">
+            <img src="../images/oversizedhoodie.jpeg" class="product-img" />
+            <h3>Oversized Hoodie</h3>
+            <p>$55</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER SECTION -->
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        <!-- FOOTER LINKS -->
+        <div class="footer-left">
+          <a href="#">About Us</a>
+          <a href="#">FAQs</a>
+          <a href="#">Contact Us</a>
+          <a href="#">Return & Exchange Policy</a>
+          <a href="#">Customer Support</a>
+          <a href="#">Legal & Privacy</a>
+        </div>
+
+        <!-- MEMBER SIGN-UP SECTION -->
+        <div class="footer-right">
+          <h3>Become a Member</h3>
+
+          <p class="member-text">
+            Join StyleMarket to receive exclusive offers and updates!.
+          </p>
+
+          <form class="member-form">
+            <input type="email" placeholder="Email Address" required />
+          </form>
+
+          <p class="member-signin">
+            Already a member? <a href="../index.html">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

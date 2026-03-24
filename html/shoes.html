@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Shoes | StyleMarket</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- NAVIGATION BAR -->
+
+    <header>
+      <nav class="nav-container">
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#"><i class="fas fa-search"></i></a>
+          </li>
+          <li class="icon">
+            <a href="../index.html"><i class="fas fa-user"></i></a>
+          </li>
+          <li class="icon">
+            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- PRODUCT CATEGORY SECTIONS -->
+
+    <!-- SNEAKERS -->
+
+    <section id="sneakers" class="featured-products category-section">
+      <h2>Sneakers</h2>
+
+      <div class="carousel-wrapper">
+        <button
+          class="page-arrow left"
+          onclick="slideRow('sneakers-track', -1)"
+        >
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="sneakers-track">
+            <a href="product.html?item=whitesneakers" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/menwhitesneakers.webp"
+                  class="product-img"
+                  alt="White Sneakers"
+                />
+                <h3>White Sneakers</h3>
+                <p>$65</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=platformsneakers" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/platformsneakers.webp"
+                  class="product-img"
+                  alt="Platform Sneakers"
+                />
+                <h3>Platform Sneakers</h3>
+                <p>$78</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=runningtrainers" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/runningsneakers.webp"
+                  class="product-img"
+                  alt="Running Trainers"
+                />
+                <h3>Running Trainers</h3>
+                <p>$72</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=hightops" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/hightop.webp"
+                  class="product-img"
+                  alt="High Tops"
+                />
+                <h3>High Tops</h3>
+                <p>$85</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=lowtops" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/lowtopsneakers.jpeg"
+                  class="product-img"
+                  alt="Low Tops"
+                />
+                <h3>Low Tops</h3>
+                <p>$68</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=retrosneakers" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/retro.webp"
+                  class="product-img"
+                  alt="Retro Sneakers"
+                />
+                <h3>Retro Sneakers</h3>
+                <p>$90</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button
+          class="page-arrow right"
+          onclick="slideRow('sneakers-track', 1)"
+        >
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- HEELS -->
+
+    <section id="heels" class="featured-products category-section">
+      <h2>Heels</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('heels-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="heels-track">
+            <a href="product.html?item=stilettos" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/stiletto.webp"
+                  class="product-img"
+                  alt="Stilettos"
+                />
+                <h3>Stilettos</h3>
+                <p>$85</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=blockheels" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/blockheels.webp"
+                  class="product-img"
+                  alt="Block Heels"
+                />
+                <h3>Block Heels</h3>
+                <p>$70</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=kittenheels" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/kittenheels.jpg"
+                  class="product-img"
+                  alt="Kitten Heels"
+                />
+                <h3>Kitten Heels</h3>
+                <p>$65</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=platformheels" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/platform.webp"
+                  class="product-img"
+                  alt="Platform Heels"
+                />
+                <h3>Platform Heels</h3>
+                <p>$90</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=strappyheels" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/strappyheels.webp"
+                  class="product-img"
+                  alt="Strappy Heels"
+                />
+                <h3>Strappy Heels</h3>
+                <p>$78</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=wedges" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/wedgesheel.jpeg"
+                  class="product-img"
+                  alt="Wedges"
+                />
+                <h3>Wedges</h3>
+                <p>$85</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('heels-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- FLATS -->
+
+    <section id="flats" class="featured-products category-section">
+      <h2>Flats</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('flats-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="flats-track">
+            <a href="product.html?item=balletflats" class="product-link">
+              <div class="product-card">
+                <img src="../images/balletflats.webp" class="product-img" />
+                <h3>Ballet Flats</h3>
+                <p>$40</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=loafers" class="product-link">
+              <div class="product-card">
+                <img src="../images/thursdayboots.webp" class="product-img" />
+                <h3>Loafers</h3>
+                <p>$55</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=leatherflats" class="product-link">
+              <div class="product-card">
+                <img src="../images/leatherflats.webp" class="product-img" />
+                <h3>Leather Flats</h3>
+                <p>$50</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=slipons" class="product-link">
+              <div class="product-card">
+                <img src="../images/sliponswomen.webp" class="product-img" />
+                <h3>Slip-Ons</h3>
+                <p>$38</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=pointedflats" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/pointedflatstommy.webp"
+                  class="product-img"
+                />
+                <h3>Pointed Flats</h3>
+                <p>$48</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('flats-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- BOOTS -->
+
+    <section id="boots" class="featured-products category-section">
+      <h2>Boots</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('boots-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="boots-track">
+            <a href="product.html?item=ankleboots" class="product-link">
+              <div class="product-card">
+                <img src="../images/ankleboots.webp" class="product-img" />
+                <h3>Ankle Boots</h3>
+                <p>$95</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=kneehighboots" class="product-link">
+              <div class="product-card">
+                <img src="../images/kneeboots.jpeg" class="product-img" />
+                <h3>Knee High Boots</h3>
+                <p>$120</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=combatboots" class="product-link">
+              <div class="product-card">
+                <img src="../images/mencombatboots.webp" class="product-img" />
+                <h3>Combat Boots</h3>
+                <p>$110</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=chelseaboots" class="product-link">
+              <div class="product-card">
+                <img src="../images/chelseaboot.jpg" class="product-img" />
+                <h3>Chelsea Boots</h3>
+                <p>$88</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=snowboots" class="product-link">
+              <div class="product-card">
+                <img src="../images/menwinterboots.jpeg" class="product-img" />
+                <h3>Snow Boots</h3>
+                <p>$130</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('boots-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- SANDALS -->
+
+    <section id="sandals" class="featured-products category-section">
+      <h2>Sandals</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('sandals-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="sandals-track">
+            <a href="product.html?item=menbeachsandals" class="product-link">
+              <div class="product-card">
+                <img src="../images/menbeachsandals.webp" class="product-img" />
+                <h3>Beach Sandals</h3>
+                <p>$35</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=designersandals" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/designerpradasandals.avif"
+                  class="product-img"
+                />
+                <h3>Designer Sandals</h3>
+                <p>$170</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=platformsandals" class="product-link">
+              <div class="product-card">
+                <img src="../images/platformsandals.webp" class="product-img" />
+                <h3>Platform Sandals</h3>
+                <p>$75</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=strappysandals" class="product-link">
+              <div class="product-card">
+                <img src="../images/strappysandals.webp" class="product-img" />
+                <h3>Strappy Sandals</h3>
+                <p>$35</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=sportssandals" class="product-link">
+              <div class="product-card">
+                <img src="../images/sportssandals.webp" class="product-img" />
+                <h3>Sports Sandals</h3>
+                <p>$40</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('sandals-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- CATEGORY FILTER + CAROUSEL LOGIC -->
+
+    <script>
+      // Get selected category from URL
+      const params = new URLSearchParams(window.location.search);
+      const category = params.get("category");
+      const sections = document.querySelectorAll(".category-section");
+
+      sections.forEach((section) => {
+        section.style.display = "none";
+      });
+
+      if (category) {
+        const activeSection = document.getElementById(category);
+        if (activeSection) {
+          activeSection.style.display = "block";
+        }
+      } else {
+        document.getElementById("sneakers").style.display = "block";
+      }
+
+      const sliderPositions = {};
+
+      // Carousel sliding functionality
+      function slideRow(trackId, direction) {
+        const track = document.getElementById(trackId);
+        const cards = track.querySelectorAll(".product-link");
+
+        const visibleCards = 4;
+        const moveBy = 2;
+        const maxIndex = cards.length - visibleCards;
+
+        if (!(trackId in sliderPositions)) {
+          sliderPositions[trackId] = 0;
+        }
+
+        sliderPositions[trackId] += direction * moveBy;
+
+        if (sliderPositions[trackId] < 0) {
+          sliderPositions[trackId] = 0;
+        }
+
+        if (sliderPositions[trackId] > maxIndex) {
+          sliderPositions[trackId] = maxIndex;
+        }
+
+        const cardWidth = cards[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(track).gap) || 20;
+        const moveAmount = sliderPositions[trackId] * (cardWidth + gap);
+
+        track.style.transform = `translateX(-${moveAmount}px)`;
+      }
+    </script>
+  </body>
+</html>
