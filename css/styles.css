@@ -321,6 +321,134 @@ nav a {
   font-family: "Poppins", serif;
 }
 
+h2 {
+  margin-top: 20px;
+}
+
+/* INFO PAGE */
+.info-hero {
+  min-height: 300px;
+  padding: 80px 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background-color: #f5dede;
+  background-image: radial-gradient(#e6a3aa 2px, transparent 2px);
+  background-size: 30px 30px;
+}
+
+.info-hero-content h1 {
+  font-size: 72px;
+  font-family: "Poppins", serif;
+}
+
+.info-hero-content p {
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+}
+
+.info-section {
+  padding: 80px 40px;
+}
+
+.info-container {
+  width: min(1500px, calc(100% - 60px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  column-gap: 120px;
+  align-items: start;
+  position: sticky;
+}
+
+.info-sidebar {
+  background: white;
+  border-radius: 16px;
+  align-self: start;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 100px;
+}
+
+.info-sidebar a {
+  display: block;
+  text-decoration: none;
+  color: #222;
+  font-weight: 600;
+  font-size: 22px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: 0.2s ease;
+}
+
+.info-sidebar a:hover {
+  background-color: #f7f0f3;
+}
+
+.info-content {
+  width: 100%;
+  max-width: none;
+  padding: 60px;
+}
+
+.info-content h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 14x;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.info-content h2 {
+  font-size: 1.4rem;
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.info-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+.info-content p {
+  font-size: 22px;
+  line-height: 1.8;
+}
+
+.info-content ul {
+  margin: 10px 0 18px 22px;
+  color: #444;
+}
+
+.info-content li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .info-container {
+    grid-template-columns: 1fr;
+  }
+
+  .info-sidebar {
+    position: static;
+  }
+
+  .info-hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .info-content {
+    padding: 24px;
+  }
+}
+
 /* ---------------- PRODUCT DISPLAY ---------------- */
 .product-grid {
   display: grid;
