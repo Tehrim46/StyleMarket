@@ -584,6 +584,59 @@
 
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
+
+      // Load uploaded women's products from localStorage
+      function getUploadedProducts() {
+        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+      }
+
+      function getWomenTrackId(categoryName) {
+        const categoryMap = {
+          "Women's Tops": "tops-track",
+          "Women's Dresses": "dresses-track",
+          "Women's Bottoms": "bottoms-track",
+          "Women's Outerwear": "outerwear-track",
+          "Women's Activewear": "activewear-track",
+        };
+
+        return categoryMap[categoryName] || null;
+      }
+
+      function createUploadedProductCard(product) {
+        return `
+      <a href="product.html?item=${product.id}" class="product-link uploaded-product">
+        <div class="product-card">
+          <img src="${product.image}" class="product-img" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.price}</p>
+        </div>
+      </a>
+    `;
+      }
+
+      function renderUploadedWomenProducts() {
+        const uploadedProducts = getUploadedProducts();
+
+        const womenProducts = uploadedProducts.filter(
+          (product) =>
+            product.category && product.category.startsWith("Women's"),
+        );
+
+        womenProducts.forEach((product) => {
+          const trackId = getWomenTrackId(product.category);
+          if (!trackId) return;
+
+          const track = document.getElementById(trackId);
+          if (!track) return;
+
+          track.insertAdjacentHTML(
+            "beforeend",
+            createUploadedProductCard(product),
+          );
+        });
+      }
+
+      renderUploadedWomenProducts();
     </script>
   </body>
 </html>
