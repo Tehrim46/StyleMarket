@@ -91,7 +91,7 @@
     <!-- SELL PAGE HERO SECTION -->
     <section class="sell-hero">
       <div class="sell-hero-content">
-        <h1>Sell on StyleMarket</h1>
+        <h1>Sell On StyleMarket</h1>
         <p>List your clothing, shoes, and accessories in just a few steps.</p>
       </div>
     </section>
@@ -102,7 +102,7 @@
         <h2>List Your Item</h2>
 
         <!-- FORM: USER INPUT FOR NEW LISTING -->
-        <form class="sell-form">
+        <form class="sell-form" id="sellForm">
           <!-- INPUT FIELDS GRID -->
 
           <div class="sell-grid">
@@ -117,7 +117,7 @@
 
             <div class="sell-field">
               <label for="price">Price</label>
-              <input type="text" id="price" placeholder="Ex. $25" />
+              <input type="number" id="price" placeholder="Ex. 25" />
             </div>
 
             <div class="sell-field">
@@ -177,6 +177,10 @@
           <div class="sell-field full-width">
             <label for="image">Upload Image</label>
             <input type="file" id="image" />
+            <img
+              id="previewImage"
+              style="width: 150px; display: none; margin-top: 10px"
+            />
           </div>
 
           <!-- ITEM DESCRIPTION -->
@@ -195,5 +199,117 @@
         </form>
       </div>
     </section>
+
+    <script>
+      // Convert item name into a product id
+      function createProductId(name) {
+        return name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+      }
+
+      // Read uploaded file so it can be stored in localStorage
+      function readImageFile(file) {
+        return new Promise((resolve, reject) => {
+          if (!file) {
+            resolve("");
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+            resolve(event.target.result);
+          };
+
+          reader.onerror = function () {
+            reject("Image failed to load.");
+          };
+
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // IMAGE PREVIEW
+      document.getElementById("image").addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            const preview = document.getElementById("previewImage");
+            preview.src = e.target.result;
+            preview.style.display = "block";
+          };
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // FORM SUBMIT
+      document
+        .getElementById("sellForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const itemName = document.getElementById("itemName").value.trim();
+          const price = document.getElementById("price").value.trim();
+          const category = document.getElementById("category").value.trim();
+          const condition = document.getElementById("condition").value.trim();
+          const size = document.getElementById("size").value.trim();
+          const color = document.getElementById("color").value.trim();
+          const description = document
+            .getElementById("description")
+            .value.trim();
+          const imageFile = document.getElementById("image").files[0];
+
+          if (
+            !itemName ||
+            !price ||
+            !category ||
+            !condition ||
+            !size ||
+            !color ||
+            !description ||
+            !imageFile
+          ) {
+            alert("Fill everything.");
+            return;
+          }
+
+          try {
+            const imageData = await readImageFile(imageFile);
+
+            const newProduct = {
+              id: createProductId(itemName) + Date.now(),
+              name: itemName,
+              price: price.startsWith("$") ? price : "$" + price,
+              image: imageData,
+              category: category,
+              condition: condition,
+              size: size,
+              color: color,
+              description: description,
+              uploadedAt: Date.now(),
+            };
+
+            const uploadedProducts =
+              JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+            uploadedProducts.push(newProduct);
+            localStorage.setItem(
+              "uploadedProducts",
+              JSON.stringify(uploadedProducts),
+            );
+
+            alert("Posted! Your item is now listed for sale.");
+
+            document.getElementById("sellForm").reset();
+
+            window.location.href = "homepage.html";
+          } catch (error) {
+            alert("Error uploading image.");
+            console.error(error);
+          }
+        });
+    </script>
   </body>
 </html>
