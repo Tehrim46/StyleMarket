@@ -408,6 +408,66 @@
         // Calculate how far the row should move
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
+
+      // Load uploaded products from localStorage
+      function getUploadedProducts() {
+        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+      }
+
+      // Map accessory categories to track IDs
+      function getAccessoriesTrackId(categoryName) {
+        const categoryMap = {
+          Bags: "bags-track",
+          Jewelry: "jewelry-track",
+          Hats: "hats-track",
+          Scarves: "scarves-track",
+        };
+
+        return categoryMap[categoryName] || null;
+      }
+
+      // Create product card
+      function createUploadedProductCard(product) {
+        return `
+    <a href="product.html?item=${product.id}" class="product-link uploaded-product">
+      <div class="product-card">
+        <img src="${product.image}" class="product-img" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.price}</p>
+      </div>
+    </a>
+  `;
+      }
+
+      // Render uploaded accessory products
+      function renderUploadedAccessories() {
+        const uploadedProducts = getUploadedProducts();
+
+        const accessoryProducts = uploadedProducts.filter(
+          (product) =>
+            product.category &&
+            (product.category === "Bags" ||
+              product.category === "Jewelry" ||
+              product.category === "Hats" ||
+              product.category === "Scarves"),
+        );
+
+        accessoryProducts.forEach((product) => {
+          const trackId = getAccessoriesTrackId(product.category);
+          if (!trackId) return;
+
+          const track = document.getElementById(trackId);
+          if (!track) return;
+
+          track.insertAdjacentHTML(
+            "beforeend",
+            createUploadedProductCard(product),
+          );
+        });
+      }
+
+      // Run it
+      renderUploadedAccessories();
     </script>
   </body>
 </html>
