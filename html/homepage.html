@@ -105,7 +105,7 @@
 
       <section class="welcome">
         <div class="welcome-overlay">
-          <h2>Welcome to StyleMarket</h2>
+          <h2>Welcome To StyleMarket</h2>
           <p>Discover the latest fashion trends</p>
           <button class="shop-btn">Shop Now</button>
         </div>
@@ -113,54 +113,25 @@
 
       <!-- FEATURED PRODUCTS SECTION -->
 
-      <section class="featured-products">
+      <section class="featured-products" id="new-arrivals">
         <h2>Shop New Arrivals</h2>
 
         <!-- NEW ARRIVALS PRODUCT GRID -->
-
-        <div class="product-grid">
-          <div class="product-card">
-            <img
-              src="../images/floral dress StyleMarket.webp"
-              class="product-img"
-            />
-            <h3>Floral Dress</h3>
-            <p>$45</p>
-          </div>
-
-          <div class="product-card">
-            <img src="../images/hightop.webp" class="product-img" />
-            <h3>Classic Sneakers</h3>
-            <p>$90</p>
-          </div>
-
-          <div class="product-card">
-            <img src="../images/bluecap.webp" class="product-img" />
-            <h3>Baseball Cap</h3>
-            <p>$65</p>
-          </div>
-
-          <div class="product-card">
-            <img src="../images/oversizedhoodie.jpeg" class="product-img" />
-            <h3>Oversized Hoodie</h3>
-            <p>$55</p>
-          </div>
-        </div>
+        <div class="product-grid" id="new-arrivals-grid"></div>
       </section>
     </main>
 
     <!-- FOOTER SECTION -->
-
     <footer class="site-footer">
       <div class="footer-container">
         <!-- FOOTER LINKS -->
         <div class="footer-left">
-          <a href="#">About Us</a>
-          <a href="#">FAQs</a>
-          <a href="#">Contact Us</a>
-          <a href="#">Return & Exchange Policy</a>
-          <a href="#">Customer Support</a>
-          <a href="#">Legal & Privacy</a>
+          <a href="info.html?section=about">About Us</a>
+          <a href="info.html?section=faqs">FAQs</a>
+          <a href="info.html?section=contact">Contact Us</a>
+          <a href="info.html?section=returns">Return & Exchange Policy</a>
+          <a href="info.html?section=support">Customer Support</a>
+          <a href="info.html?section=privacy">Legal & Privacy</a>
         </div>
 
         <!-- MEMBER SIGN-UP SECTION -->
@@ -168,7 +139,7 @@
           <h3>Become a Member</h3>
 
           <p class="member-text">
-            Join StyleMarket to receive exclusive offers and updates!.
+            Join StyleMarket to receive exclusive offers and updates!
           </p>
 
           <form class="member-form">
@@ -181,5 +152,78 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      // Default homepage products
+      const defaultNewArrivals = [
+        {
+          id: "floraldress",
+          name: "Floral Dress",
+          price: "$45",
+          image: "../images/floral dress StyleMarket.webp",
+        },
+        {
+          id: "hightops",
+          name: "Classic Sneakers",
+          price: "$90",
+          image: "../images/hightop.webp",
+        },
+        {
+          id: "baseballcap",
+          name: "Baseball Cap",
+          price: "$65",
+          image: "../images/bluecap.webp",
+        },
+        {
+          id: "oversizedhoodie",
+          name: "Oversized Hoodie",
+          price: "$55",
+          image: "../images/oversizedhoodie.jpeg",
+        },
+      ];
+
+      const shopBtn = document.querySelector(".shop-btn");
+
+      if (shopBtn) {
+        shopBtn.addEventListener("click", () => {
+          const section = document.getElementById("new-arrivals");
+          section.scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
+      function getUploadedProducts() {
+        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+      }
+
+      function renderNewArrivals() {
+        const grid = document.getElementById("new-arrivals-grid");
+        if (!grid) return;
+
+        const uploadedProducts = getUploadedProducts();
+
+        const newestUploaded = uploadedProducts
+          .sort((a, b) => b.uploadedAt - a.uploadedAt)
+          .slice(0, 4);
+
+        const productsToShow =
+          newestUploaded.length > 0 ? newestUploaded : defaultNewArrivals;
+
+        grid.innerHTML = productsToShow
+          .map(
+            (product) => `
+        <a href="product.html?item=${product.id}" class="product-link">
+          <div class="product-card">
+            <img src="${product.image}" class="product-img" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+          </div>
+        </a>
+      `,
+          )
+          .join("");
+      }
+
+      renderNewArrivals();
+    </script>
   </body>
 </html>
