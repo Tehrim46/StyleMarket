@@ -118,7 +118,7 @@
                   alt="Oversized Hoodie"
                 />
                 <h3>Oversized Hoodie</h3>
-                <p>$45</p>
+                <p>$55</p>
               </div>
             </a>
 
@@ -224,9 +224,9 @@
                 <img
                   src="../images/menshorts.webp"
                   class="product-img"
-                  alt="Men's Shorts"
+                  alt="Casual Shorts"
                 />
-                <h3>Men's Shorts</h3>
+                <h3>Casual Shorts</h3>
                 <p>$30</p>
               </div>
             </a>
@@ -255,7 +255,7 @@
               </div>
             </a>
 
-            <a href="product.html?item=joggers" class="product-link">
+            <a href="product.html?item=joggersmen" class="product-link">
               <div class="product-card">
                 <img
                   src="../images/joggersmen.jpg"
@@ -524,6 +524,57 @@
         // Apply movement
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
+
+      // Load uploaded men's products from localStorage
+      function getUploadedProducts() {
+        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+      }
+
+      function getMenTrackId(categoryName) {
+        const categoryMap = {
+          "Men's Tops": "men-tops-track",
+          "Men's Bottoms": "men-bottoms-track",
+          "Men's Outerwear": "men-outerwear-track",
+          "Men's Activewear": "men-activewear-track",
+        };
+
+        return categoryMap[categoryName] || null;
+      }
+
+      function createUploadedProductCard(product) {
+        return `
+      <a href="product.html?item=${product.id}" class="product-link uploaded-product">
+        <div class="product-card">
+          <img src="${product.image}" class="product-img" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.price}</p>
+        </div>
+      </a>
+    `;
+      }
+
+      function renderUploadedMenProducts() {
+        const uploadedProducts = getUploadedProducts();
+
+        const menProducts = uploadedProducts.filter(
+          (product) => product.category && product.category.startsWith("Men's"),
+        );
+
+        menProducts.forEach((product) => {
+          const trackId = getMenTrackId(product.category);
+          if (!trackId) return;
+
+          const track = document.getElementById(trackId);
+          if (!track) return;
+
+          track.insertAdjacentHTML(
+            "beforeend",
+            createUploadedProductCard(product),
+          );
+        });
+      }
+
+      renderUploadedMenProducts();
     </script>
   </body>
 </html>
