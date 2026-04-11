@@ -9,6 +9,11 @@ const subtext = document.getElementById("subtext");
 const loginHint = document.getElementById("loginHint");
 const signupHint = document.getElementById("signupHint");
 
+// AUTO REDIRECT IF ALREADY LOGGED IN
+if (localStorage.getItem("currentUser")) {
+  window.location.href = "./HTML/homepage.html";
+}
+
 if (
   tabs &&
   tabLogin &&
@@ -40,31 +45,24 @@ if (
   tabLogin.addEventListener("click", () => setMode("login"));
   tabSignup.addEventListener("click", () => setMode("signup"));
 
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
-
-    if (email === "" || password === "") {
-      loginHint.textContent = "Please fill in all fields.";
-      return;
-    }
-
-    loginHint.textContent = "Login successful.";
-    window.location.href = "HTML/homepage.html";
-  });
-
+  // SIGN UP
   signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value.trim();
-    const confirmPassword = document.getElementById("signupConfirm").value.trim();
+    const confirmPassword = document
+      .getElementById("signupConfirm")
+      .value.trim();
 
-    if (name === "" || email === "" || password === "" || confirmPassword === "") {
+    if (!name || !email || !password || !confirmPassword) {
       signupHint.textContent = "Please fill in all fields.";
+      return;
+    }
+
+    if (password.length < 8) {
+      signupHint.textContent = "Password must be at least 8 characters.";
       return;
     }
 
@@ -73,9 +71,57 @@ if (
       return;
     }
 
-    signupHint.textContent = "Account created successfully.";
-    window.location.href = "HTML/homepage.html";
+    // Check if user already exists
+    const users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if (users[email]) {
+      signupHint.textContent = "Account already exists.";
+      return;
+    }
+
+    // Save user
+    users[email] = { name, password };
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("currentUser", email);
+
+    signupHint.textContent = "Account created. Redirecting...";
+
+    setTimeout(() => {
+      window.location.href = "./HTML/homepage.html";
+    }, 1000);
   });
 
-  setMode("login");
+  // LOGIN
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    if (!email || !password) {
+      loginHint.textContent = "Please fill in all fields.";
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if (!users[email]) {
+      loginHint.textContent = "Account not found.";
+      return;
+    }
+
+    if (users[email].password !== password) {
+      loginHint.textContent = "Incorrect password.";
+      return;
+    }
+
+    loginHint.textContent = "Login successful. Redirecting...";
+
+    // Save logged-in user
+    localStorage.setItem("currentUser", email);
+
+    setTimeout(() => {
+      window.location.href = "./HTML/homepage.html";
+    }, 1000);
+  });
 }
