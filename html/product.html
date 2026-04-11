@@ -126,6 +126,16 @@
       const params = new URLSearchParams(window.location.search);
       const itemKey = params.get("item");
 
+      // Load uploaded products from localStorage
+      const uploadedProducts =
+        JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+
+      // Turn uploaded product array into object format
+      const uploadedProductsMap = {};
+      uploadedProducts.forEach((product) => {
+        uploadedProductsMap[product.id] = product;
+      });
+
       // Product database
       const products = {
         // Women's Tops
@@ -198,7 +208,7 @@
           color: "Beige",
           size: "M",
           description:
-            "A cozy beige knit cardigan featuring black horizontal stripes and a classic button-front design. Soft and lightweight, it’s perfect for layering over everyday outfits for a relaxed, stylish look.",
+            "A cozy beige knit cardigan featuring black horizontal stripes and a button front design. Soft and lightweight, it’s perfect for layering over everyday outfits for a relaxed, stylish look.",
         },
 
         // Women's Dresses
@@ -259,7 +269,7 @@
           color: "Black/White",
           size: "L",
           description:
-            "A stylish sleeveless midi dress featuring bold vertical stripes and a flattering tie-waist belt. Designed with a button-front and lightweight fabric, it offers a comfortable yet polished look.",
+            "A stylish sleeveless midi dress featuring bold vertical stripes and a flattering tie waisted belt. Designed with a lightweight fabric, it offers a comfortable yet polished look.",
         },
 
         shortflared: {
@@ -271,7 +281,7 @@
           color: "Light Blue",
           size: "S",
           description:
-            "A chic sleeveless mini dress in a soft light blue shade, featuring a fitted bodice and a flared skirt for a flattering silhouette. Elegant and lightweight, it’s perfect for parties, dinners, or stylish daytime outings.",
+            "A chic sleeveless mini dress in a soft light blue shade, featuring a flared skirt for a flattering silhouette. Elegant and lightweight, it’s perfect for parties, dinners, or stylish daytime outings.",
         },
 
         // Women's Bottoms
@@ -332,7 +342,7 @@
           color: "Black",
           size: "S",
           description:
-            "Classic black skinny jeans designed with a sleek, form-fitting silhouette. They are with comfortable stretch fabric and they provide a flattering fit.",
+            "Classic black skinny jeans. They are made with a comfortable stretch fabric and they provide a flattering fit.",
         },
 
         pleatedskirt: {
@@ -344,7 +354,7 @@
           color: "Pink",
           size: "L",
           description:
-            "A vibrant red pleated midi skirt with a high-waisted design that creates a flattering, flowing silhouette.",
+            "A vibrant red pleated midi skirt with a high waisted design that creates a flattering, flowing silhouette.",
         },
 
         // Women's Outerwear
@@ -369,7 +379,7 @@
           color: "Beige",
           size: "L",
           description:
-            "Elegant trench coat with a clean silhouette and lightweight feel. Polished and comfortable for all-day wear.",
+            "Elegant trench coat with a clean silhouette and lightweight feel. Polished and comfortable for everyday wear.",
         },
 
         bomberjacket: {
@@ -430,7 +440,7 @@
           color: "Light Purple",
           size: "S",
           description:
-            "Supportive sports bra with a snug fit and soft stretch fabric. Made for comfort and ease of movement.",
+            "Supportive sports bra with soft stretch fabric. Made for comfort and ease of movement.",
         },
 
         leggings: {
@@ -478,12 +488,12 @@
           color: "White",
           size: "M",
           description:
-            "A sleek, fitted athletic jacket with a full zip and stretch fabric for comfort and mobility. It's ideal for workouts, running, or layering during active days.",
+            "A sleek, fitted athletic jacket with a full zip and stretch fabric for comfort and mobility. It's ideal for workouts, running, or layering for workouts.",
         },
 
         womentrackpants: {
           name: "Track Pants",
-          price: "$56",
+          price: "$46",
           condition: "Excellent Condition",
           image: "../images/womentrackpants.webp",
           category: "Women's Activewear",
@@ -507,7 +517,7 @@
 
         oversizedhoodie: {
           name: "Oversized Hoodie",
-          price: "$45",
+          price: "$55",
           condition: "Used",
           image: "../images/oversizedhoodie.jpeg",
           category: "Men's Tops",
@@ -550,7 +560,7 @@
           color: "Black",
           size: "M",
           description:
-            "A versatile plaid overshirt with a relaxed fit and button-up front. It's designed for layering and it combines the look of a shirt with the warmth of a lightweight jacket.",
+            "A versatile plaid overshirt with a relaxed fit and buttons in the front. It's designed for layering and it combines the look of a shirt with the warmth of a lightweight jacket.",
         },
 
         athletictee: {
@@ -562,7 +572,7 @@
           color: "Gray",
           size: "M",
           description:
-            "A lightweight and breathable t-shirt designed for workouts and active wear. It features a fitted cut and moisture-wicking fabric to keep you cool and comfortable during training or everyday use.",
+            "A lightweight and breathable t-shirt designed for workouts and active wear. It features a fitted cut and breathable fabric to keep you cool and comfortable during training or everyday use.",
         },
 
         //Men's Bottoms
@@ -587,7 +597,7 @@
           color: "Gray",
           size: "L",
           description:
-            "Utility-style pants with multiple side pockets and a relaxed fit. It has a gray tone with a structured and street ready look.",
+            "Utility styled pants with multiple side pockets and a relaxed fit. It has a gray tone with a structured and street ready look.",
         },
 
         casualshorts: {
@@ -628,14 +638,14 @@
 
         joggersmen: {
           name: "Joggers",
-          price: "$40",
+          price: "$46",
           condition: "New With Tags",
           image: "../images/joggersmen.jpg",
           category: "Men's Bottoms",
-          color: "Black",
+          color: "Gray",
           size: "L",
           description:
-            "Sleek black joggers with a tapered fit, elastic cuffs, and drawstring waist for a clean, casual look.",
+            "Gray track pants with a sleek, athletic fit and signature side stripes. Comfortable and perfect for everyday or active wear.",
         },
 
         //Men's Outerwear
@@ -762,7 +772,7 @@
 
         compressionshirt: {
           name: "Compression Shirt",
-          price: "$38",
+          price: "$34",
           condition: "Excellent Condition",
           image: "../images/compressionshirt.jpg",
           category: "Men's Activewear",
@@ -909,11 +919,10 @@
           price: "$85",
           condition: "Used",
           image: "../images/wedgesheel.jpeg",
-          category: "Nude",
-          color: "Black/White",
+          category: "Heels",
+          color: "Nude",
           size: "8",
-          description:
-            "Neutral toned sandals with a wedge heel and ankle strap.",
+          description: "Neutral toned wedge heel and thin ankle strap.",
         },
 
         //Flats
@@ -1347,7 +1356,7 @@
           condition: "Excellent Condition",
           image: "../images/cablescarf.webp",
           category: "Scarves",
-          color: "Cream",
+          color: "Gray",
           size: "One Size",
           description:
             "Dark gray cable knit scarf that's thick, soft, and made to keep you warm.",
@@ -1363,6 +1372,8 @@
           size: "One Size",
           description: "Leopard print scarf in brown and black tones.",
         },
+
+        ...uploadedProductsMap,
       };
 
       // Find selected product using key from URL
