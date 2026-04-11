@@ -518,6 +518,68 @@
 
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
+
+      // Load uploaded products from localStorage
+      function getUploadedProducts() {
+        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+      }
+
+      // Map shoe categories to track IDs
+      function getShoesTrackId(categoryName) {
+        const categoryMap = {
+          Sneakers: "sneakers-track",
+          Heels: "heels-track",
+          Flats: "flats-track",
+          Boots: "boots-track",
+          Sandals: "sandals-track",
+        };
+
+        return categoryMap[categoryName] || null;
+      }
+
+      // Create product card
+      function createUploadedProductCard(product) {
+        return `
+    <a href="product.html?item=${product.id}" class="product-link uploaded-product">
+      <div class="product-card">
+        <img src="${product.image}" class="product-img" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.price}</p>
+      </div>
+    </a>
+  `;
+      }
+
+      // Render uploaded shoe products
+      function renderUploadedShoes() {
+        const uploadedProducts = getUploadedProducts();
+
+        const shoeProducts = uploadedProducts.filter(
+          (product) =>
+            product.category &&
+            (product.category === "Sneakers" ||
+              product.category === "Heels" ||
+              product.category === "Flats" ||
+              product.category === "Boots" ||
+              product.category === "Sandals"),
+        );
+
+        shoeProducts.forEach((product) => {
+          const trackId = getShoesTrackId(product.category);
+          if (!trackId) return;
+
+          const track = document.getElementById(trackId);
+          if (!track) return;
+
+          track.insertAdjacentHTML(
+            "beforeend",
+            createUploadedProductCard(product),
+          );
+        });
+      }
+
+      // Run it
+      renderUploadedShoes();
     </script>
   </body>
 </html>
