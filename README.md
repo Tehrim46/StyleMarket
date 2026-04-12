@@ -8,48 +8,39 @@ StyleMarket is a web-based buy-and-sell platform designed to provide a simple an
 - Development: Implemented in VS Code
 - Version Control: GitHub for task tracking and collaboration
 
-Features
-Login and signup page
-Homepage with featured products
-Category pages (Men, Women, Shoes, Accessories)
-Sell page for listing items
-Search and filter functionality
-Clean and consistent UI across pages
-Interactive elements for better user experience
-
-UI/UX Design
-Light pink theme with consistent color usage
-Bold logo to make branding stand out
-Highlighted “Shop Now” button to guide users
-Simple navigation for easy browsing
-Clean layout with attention to spacing and alignment
-
 # Phases
-Phase 1 – Frontend Application:
-- Sketched the layout to plan structure and user flow. 
-- Digitized and refined the design in GoodNotes.
-- Began development in VS Code.
-- Designed and customized the login page to match the site’s theme.
-- Used GitHub to track completed, ongoing, and upcoming tasks.
+Phase 1 – Planning & Setup:
+
+- Planned site layout and user flow using sketches and GoodNotes
+- Set up project structure in VS Code (HTML, JS, CSS, and file organization)
+- Initialized GitHub repository and task tracking system
+- Designed and implemented the login page UI consistent with site theme
 
 Phase 2 – Development & Design:
 
-Built the homepage and category pages
-- Added product listings and improved layout structure
-- Focused on styling using CSS for a clean and consistent look
-- Improved navigation between pages
+- Built homepage, product pages, sell page, and help section using HTML/CSS
+- Developed category pages (Women, Men, Shoes, Accessories & Sell) with dropdown filtering
+- Created reusable product card layout for consistent UI
+- Integrated JavaScript to dynamically display products (localStorage-based data handling)
 
-Phase 3 – Testing & Debugging:
+Phase 3 – Styling & UX:
+
+- Applied CSS styling for layout consistency, spacing, and responsiveness
+- Improved alignment, font sizing, and visual hierarchy
+- Enhanced navigation UX (dropdown menus, smooth scrolling “Shop Now” button)
+- Standardized design across all pages (colors, typography, spacing)
+
+Phase 4 – Testing & Debugging:
 
 - Fixed navigation issues caused by inconsistent file naming
 - Resolved caching issues with Live Server
 - Tested all links and layouts for consistency
-- Improved overall performance and usability
+- Refactored structure for cleaner, maintainable code
 
 # Installation & Execution Instructions
 
-Project is still in development, but most core features are completed.
-To run locally:
-= Clone the repository
+Project is still in development, but most core features are completed. Follow the steps below to run locally:
+
+- Clone the repository
 - Open the project in VS Code
 - Run using Live Server
