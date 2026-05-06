@@ -4,8 +4,10 @@ StyleMarket is a web-based buy-and-sell platform designed to provide a simple an
 
 # System Architecture (High-Level)
 - Frontend: HTML, CSS, and JavaScript
-- Design Process: Paper wireframes refined digitally in GoodNotes
-- Development: Implemented in VS Code
+- Backend Services: Firebase Authentication & Firebase Realtime Database
+- Design Process: Wireframes and UI planning created on paper and in GoodNotes before implementation
+- Development: Implemented in VS Code and used Live Server
+- Data Handling: localStorage used for cart, wishlist, search history, and temporary product storage
 - Version Control: GitHub for task tracking and collaboration
 
 # Phases
@@ -36,6 +38,13 @@ Phase 4 – Testing & Debugging:
 - Resolved caching issues with Live Server
 - Tested all links and layouts for consistency
 - Refactored structure for cleaner, maintainable code
+
+Phase 5 – Backend & Firebase Integration
+
+- Configured and connected Firebase services to the application
+- Implemented Firebase Authentication for secure login/signup functionality
+- Integrated Firebase Realtime Database for backend data handling
+- Connected frontend components to Firebase using JavaScript APIs
 
 # Installation & Execution Instructions
 
