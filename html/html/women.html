@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Women's Collection | StyleMarket</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+    <!-- NAVIGATION BAR -->
+    <header>
+      <nav class="nav-container">
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
+
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <!-- WOMEN CATEGORY SECTIONS -->
+
+    <!-- WOMEN CATEGORY: TOPS -->
+    <section id="tops" class="featured-products category-section">
+      <h2>Women's Tops</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('tops-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="tops-track">
+            <a href="product.html?item=ribbedtanktop" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/ribbedtanktop.avif"
+                  class="product-img"
+                  alt="Ribbed Tank Top"
+                />
+                <h3>Ribbed Tank Top</h3>
+                <p>$25</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=oversizedtee" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/womensoversizedtee.webp"
+                  class="product-img"
+                  alt="Oversized Tee"
+                />
+                <h3>Oversized Tee</h3>
+                <p>$30</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=silkblouse" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/womensilkblouse.webp"
+                  class="product-img"
+                  alt="Silk Blouse"
+                />
+                <h3>Silk Blouse</h3>
+                <p>$35</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=croppedsweater" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/womenscroppedsweater.webp"
+                  class="product-img"
+                  alt="Cropped Sweater"
+                />
+                <h3>Cropped Sweater</h3>
+                <p>$55</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=camitop" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/camitop.avif"
+                  class="product-img"
+                  alt="Cami Top"
+                />
+                <h3>Cami Top</h3>
+                <p>$22</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=knitcardigan" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/knitcardigan.webp"
+                  class="product-img"
+                  alt="Knit Cardigan"
+                />
+                <h3>Knit Cardigan</h3>
+                <p>$48</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('tops-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- WOMEN CATEGORY: DRESSES -->
+    <section id="dresses" class="featured-products category-section">
+      <h2>Women's Dresses</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('dresses-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="dresses-track">
+            <a href="product.html?item=floraldress" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/floral dress StyleMarket.webp"
+                  class="product-img"
+                />
+                <h3>Floral Dress</h3>
+                <p>$65</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=mididress" class="product-link">
+              <div class="product-card">
+                <img src="../images/mididress.jpg" class="product-img" />
+                <h3>Midi Dress</h3>
+                <p>$50</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=maxidress" class="product-link">
+              <div class="product-card">
+                <img src="../images/womensmaxidress.avif" class="product-img" />
+                <h3>Maxi Dress</h3>
+                <p>$90</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=bodycondress" class="product-link">
+              <div class="product-card">
+                <img src="../images/bodycondress.jpg" class="product-img" />
+                <h3>Bodycon Dress</h3>
+                <p>$75</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=stripeddress" class="product-link">
+              <div class="product-card">
+                <img src="../images/stripeddress.webp" class="product-img" />
+                <h3>Striped Dress</h3>
+                <p>$80</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=shortflared" class="product-link">
+              <div class="product-card">
+                <img src="../images/shortflared.webp" class="product-img" />
+                <h3>Short Flared Dress</h3>
+                <p>$60</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('dresses-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- WOMEN CATEGORY: BOTTOMS -->
+    <section id="bottoms" class="featured-products category-section">
+      <h2>Women's Bottoms</h2>
+
+      <div class="carousel-wrapper">
+        <button class="page-arrow left" onclick="slideRow('bottoms-track', -1)">
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="bottoms-track">
+            <a href="product.html?item=widelegjeans" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/widelegjeans.webp"
+                  class="product-img"
+                  alt="Wide Leg Jeans"
+                />
+                <h3>Wide Leg Jeans</h3>
+                <p>$48</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=miniskirt" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/miniskirt.webp"
+                  class="product-img"
+                  alt="Mini Skirt"
+                />
+                <h3>Mini Skirt</h3>
+                <p>$54</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=womencargopants" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/cargopants.jpeg"
+                  class="product-img"
+                  alt="Cargo Pants"
+                />
+                <h3>Cargo Pants</h3>
+                <p>$42</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=womenlinenpants" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/linenpants.webp"
+                  class="product-img"
+                  alt="Linen Pants"
+                />
+                <h3>Linen Pants</h3>
+                <p>$28</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=blackjeans" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/blackjeans.webp"
+                  class="product-img"
+                  alt="Black Jeans"
+                />
+                <h3>Black Jeans</h3>
+                <p>$52</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=pleatedskirt" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/pleatedskirt.jpg"
+                  class="product-img"
+                  alt="Pleated Skirt"
+                />
+                <h3>Pleated Skirt</h3>
+                <p>$32</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button class="page-arrow right" onclick="slideRow('bottoms-track', 1)">
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- WOMEN CATEGORY: OUTERWEAR -->
+    <section id="outerwear" class="featured-products category-section">
+      <h2>Women's Outerwear</h2>
+
+      <div class="carousel-wrapper">
+        <button
+          class="page-arrow left"
+          onclick="slideRow('outerwear-track', -1)"
+        >
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="outerwear-track">
+            <a href="product.html?item=denimjacket" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/denimjacket.jpeg"
+                  class="product-img"
+                  alt="Denim Jacket"
+                />
+                <h3>Denim Jacket</h3>
+                <p>$65</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=trenchcoat" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/trenchcoat.webp"
+                  class="product-img"
+                  alt="Trench Coat"
+                />
+                <h3>Trench Coat</h3>
+                <p>$85</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=bomberjacket" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/bomberjacket.webp"
+                  class="product-img"
+                  alt="Bomber Jacket"
+                />
+                <h3>Bomber Jacket</h3>
+                <p>$70</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=womenspufferjacket" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/womenspufferjacket.webp"
+                  class="product-img"
+                  alt="Puffer Jacket"
+                />
+                <h3>Puffer Jacket</h3>
+                <p>$90</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=fleecejacket" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/fleecejacket.jpg"
+                  class="product-img"
+                  alt="Fleece Jacket"
+                />
+                <h3>Fleece Jacket</h3>
+                <p>$40</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=woolcoat" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/woolcoat.webp"
+                  class="product-img"
+                  alt="Wool Coat"
+                />
+                <h3>Wool Coat</h3>
+                <p>$120</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button
+          class="page-arrow right"
+          onclick="slideRow('outerwear-track', 1)"
+        >
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- WOMEN CATEGORY: ACTIVEWEAR -->
+    <section id="activewear" class="featured-products category-section">
+      <h2>Women's Activewear</h2>
+
+      <div class="carousel-wrapper">
+        <button
+          class="page-arrow left"
+          onclick="slideRow('activewear-track', -1)"
+        >
+          &#10094;
+        </button>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="activewear-track">
+            <a href="product.html?item=sportsbra" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/sportsbra.webp"
+                  class="product-img"
+                  alt="Sports Bra"
+                />
+                <h3>Sports Bra</h3>
+                <p>$35</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=leggings" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/leggings.jpg"
+                  class="product-img"
+                  alt="Leggings"
+                />
+                <h3>Leggings</h3>
+                <p>$40</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=workoutset" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/workoutset.webp"
+                  class="product-img"
+                  alt="Workout Set"
+                />
+                <h3>Workout Set</h3>
+                <p>$75</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=runningshorts" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/runningshorts.webp"
+                  class="product-img"
+                  alt="Running Shorts"
+                />
+                <h3>Running Shorts</h3>
+                <p>$44</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=yogajacket" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/yogajacket.webp"
+                  class="product-img"
+                  alt="Yoga Jacket"
+                />
+                <h3>Yoga Jacket</h3>
+                <p>$58</p>
+              </div>
+            </a>
+
+            <a href="product.html?item=womentrackpants" class="product-link">
+              <div class="product-card">
+                <img
+                  src="../images/womentrackpants.webp"
+                  class="product-img"
+                  alt="Track Pants"
+                />
+                <h3>Track Pants</h3>
+                <p>$46</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <button
+          class="page-arrow right"
+          onclick="slideRow('activewear-track', 1)"
+        >
+          &#10095;
+        </button>
+      </div>
+    </section>
+
+    <!-- CATEGORY FILTER + CAROUSEL LOGIC -->
+
+    <script type="module">
+      import { db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // CATEGORY FILTERING
+      // Shows selected category from URL or defaults to Tops
+
+      const params = new URLSearchParams(window.location.search);
+      const category = params.get("category");
+      const sections = document.querySelectorAll(".category-section");
+
+      sections.forEach((section) => {
+        section.style.display = "none";
+      });
+
+      if (category) {
+        const activeSection = document.getElementById(category);
+        if (activeSection) {
+          activeSection.style.display = "block";
+        }
+      } else {
+        document.getElementById("tops").style.display = "block";
+      }
+
+      // CAROUSEL SLIDER LOGIC
+      // Displays 4 items and moves 2 per click
+
+      const sliderPositions = {};
+
+      function slideRow(trackId, direction) {
+        const track = document.getElementById(trackId);
+        const cards = track.querySelectorAll(".product-link");
+
+        const visibleCards = 4;
+        const moveBy = 2;
+        const maxIndex = cards.length - visibleCards;
+
+        if (!(trackId in sliderPositions)) {
+          sliderPositions[trackId] = 0;
+        }
+
+        sliderPositions[trackId] += direction * moveBy;
+
+        if (sliderPositions[trackId] < 0) {
+          sliderPositions[trackId] = 0;
+        }
+
+        if (sliderPositions[trackId] > maxIndex) {
+          sliderPositions[trackId] = maxIndex;
+        }
+
+        const cardWidth = cards[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(track).gap) || 20;
+        const moveAmount = sliderPositions[trackId] * (cardWidth + gap);
+
+        track.style.transform = `translateX(-${moveAmount}px)`;
+      }
+
+      // CATEGORY MAPPING
+      // Maps women's categories to the correct carousel row
+
+      function getWomenTrackId(categoryName) {
+        const categoryMap = {
+          "Women's Tops": "tops-track",
+          "Women's Dresses": "dresses-track",
+          "Women's Bottoms": "bottoms-track",
+          "Women's Outerwear": "outerwear-track",
+          "Women's Activewear": "activewear-track",
+        };
+
+        return categoryMap[categoryName] || null;
+      }
+
+      // PRODUCT CARD CREATION
+      // Creates the HTML card for an uploaded product
+
+      function createUploadedProductCard(product) {
+        return `
+      <a href="product.html?item=${product.id}" class="product-link uploaded-product">
+        <div class="product-card">
+          <img src="${product.image}" class="product-img" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.price}</p>
+        </div>
+      </a>
+    `;
+      }
+
+      // RENDER UPLOADED PRODUCTS
+      // Adds uploaded women's products into their matching category carousel
+
+      async function renderUploadedWomenProducts() {
+        const snapshot = await getDocs(collection(db, "products"));
+
+        const uploadedProducts = [];
+
+        snapshot.forEach((doc) => {
+          uploadedProducts.push(doc.data());
+        });
+
+        const womenProducts = uploadedProducts.filter(
+          (product) =>
+            product.category && product.category.startsWith("Women's"),
+        );
+
+        womenProducts.forEach((product) => {
+          const trackId = getWomenTrackId(product.category);
+          if (!trackId) return;
+
+          const track = document.getElementById(trackId);
+          if (!track) return;
+
+          track.insertAdjacentHTML(
+            "beforeend",
+            createUploadedProductCard(product),
+          );
+        });
+      }
+
+      renderUploadedWomenProducts();
+      window.slideRow = slideRow;
+    </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
+  </body>
+</html>
