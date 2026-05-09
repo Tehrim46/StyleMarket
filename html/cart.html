@@ -190,12 +190,12 @@
           cartSummary.style.display = "none";
 
           cartContainer.innerHTML = `
-                  <div class="empty-cart">
-                    <i class="fa-solid fa-shopping-cart"></i>
-                    <p>Your cart is empty.</p>
-                    <a href="homepage.html">Continue Shopping</a>
-                  </div>
-                `;
+                        <div class="empty-cart">
+                          <i class="fa-solid fa-shopping-cart"></i>
+                          <p>Your cart is empty.</p>
+                          <a href="homepage.html">Continue Shopping</a>
+                        </div>
+                      `;
 
           cartSummary.innerHTML = "";
           return;
@@ -208,25 +208,25 @@
         cartContainer.innerHTML = cart
           .map(
             (item, index) => `
-                  <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item">
+                          <img src="${item.image}" alt="${item.name}">
 
-                    <div class="cart-info">
-                      <h3>${item.name}</h3>
-                      <p>${item.price}</p>
+                          <div class="cart-info">
+                            <h3>${item.name}</h3>
+                            <p>${item.price}</p>
 
-                      <div class="quantity-controls">
-                        <button onclick="changeQuantity(${index}, -1)">−</button>
-                        <span>${item.quantity}</span>
-                        <button onclick="changeQuantity(${index}, 1)">+</button>
-                      </div>
-                    </div>
+                            <div class="quantity-controls">
+                              <button onclick="changeQuantity(${index}, -1)">−</button>
+                              <span>${item.quantity}</span>
+                              <button onclick="changeQuantity(${index}, 1)">+</button>
+                            </div>
+                          </div>
 
-                    <button class="remove-cart-btn" onclick="removeFromCart(${index})">
-                      Remove
-                    </button>
-                  </div>
-                `,
+                          <button class="remove-cart-btn" onclick="removeFromCart(${index})">
+                            Remove
+                          </button>
+                        </div>
+                      `,
           )
           .join("");
 
@@ -252,35 +252,35 @@
         }
 
         cartSummary.innerHTML = `
-                <h2>Order Summary</h2>
+                      <h2>Order Summary</h2>
 
-                <p>Subtotal: <strong>$${total.toFixed(2)}</strong></p>
+                      <p>Subtotal: <strong>$${total.toFixed(2)}</strong></p>
 
-                ${
-                  reward
-                    ? `
-                    <div class="reward-box">
-                      <p>Reward Available: <strong>${reward.code}</strong></p>
+                      ${
+                        reward
+                          ? `
+                          <div class="reward-box">
+                            <p>Reward Available: <strong>${reward.code}</strong></p>
+                            ${
+                              appliedReward
+                                ? `<button onclick="removeReward()" class="reward-btn">Remove Reward</button>`
+                                : `<button onclick="applyReward()" class="reward-btn">Apply Reward</button>`
+                            }
+                          </div>
+                        `
+                          : ""
+                      }
+
                       ${
                         appliedReward
-                          ? `<button onclick="removeReward()" class="reward-btn">Remove Reward</button>`
-                          : `<button onclick="applyReward()" class="reward-btn">Apply Reward</button>`
+                          ? `<p>Discount: <strong>-$${discount.toFixed(2)}</strong></p>`
+                          : ""
                       }
-                    </div>
-                  `
-                    : ""
-                }
 
-                ${
-                  appliedReward
-                    ? `<p>Discount: <strong>-$${discount.toFixed(2)}</strong></p>`
-                    : ""
-                }
+                      <p>Total: <strong>$${finalTotal.toFixed(2)}</strong></p>
 
-                <p>Total: <strong>$${finalTotal.toFixed(2)}</strong></p>
-
-                <button class="checkout-btn" onclick="checkoutOrder()">Checkout</button>
-              `;
+                      <button class="checkout-btn" onclick="checkoutOrder()">Checkout</button>
+                    `;
       }
 
       // QUANTITY CONTROLS
@@ -415,7 +415,7 @@
         console.log("Reward Applied:", appliedReward);
 
         const response = await fetch(
-          "https://stylemarket-backend.onrender.com",
+          "https://stylemarket-backend.onrender.com/create-checkout-session",
           {
             method: "POST",
             headers: {
