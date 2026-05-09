@@ -56,12 +56,12 @@ Phase 6 – Stripe Checkout Integration
 
 # Installation & Execution Instructions
 
-- 1. Clone the repository
-- 2. Open the project in VS Code
-- 3. Run frontend using Live Server
-  4. Start backend server;
+- Clone the repository
+- Open the project in VS Code
+- Run frontend using Live Server
+- Start backend server;
 
   cd backend
   node server.js
   
-  5. Launch the website locally and access all marketplace features through the integrated Firebase and Stripe systems.
+- Launch the website locally and access all marketplace features through the integrated Firebase and Stripe systems.
