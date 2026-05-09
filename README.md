@@ -1,5 +1,5 @@
 # StyleMarket
-StyleMarket is a web-based fashion marketplace designed to give clothing a second life through buying and selling. The platform provides users with a clean and visually appealing shopping experience where they can browse products, save items to a wishlist, upload listings, manage carts, and securely complete purchases through Stripe checkout integration. The application focuses on responsive design, organized navigation, and a smooth user experience through dynamic product rendering and Firebase-powered backend functionality.
+StyleMarket is a web-based fashion marketplace designed to give clothing a second life through buying and selling. The platform allows users to create accounts, browse products across multiple categories, upload and manage their own listings, save products to a wishlist, manage carts, and complete purchases through Stripe checkout integration. The website includes dynamic product pages, a global search system, reward and discount functionality, order history tracking, and Firebase-powered user authentication and data storage. The application focuses on responsive design, organized navigation, and a smooth user experience through modern frontend development and backend integration.
 
 # System Architecture (High-Level)
 - Frontend: HTML, CSS, and JavaScript
