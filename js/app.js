@@ -1,3 +1,15 @@
+import { auth, db } from "./firebase.js";
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  doc,
+  setDoc,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const tabs = document.querySelector(".tabs");
 const tabLogin = document.getElementById("tabLogin");
 const tabSignup = document.getElementById("tabSignup");
@@ -10,9 +22,11 @@ const loginHint = document.getElementById("loginHint");
 const signupHint = document.getElementById("signupHint");
 
 // AUTO REDIRECT IF ALREADY LOGGED IN
-if (localStorage.getItem("currentUser")) {
-  window.location.href = "./HTML/homepage.html";
-}
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    window.location.href = "./html/homepage.html";
+  }
+});
 
 if (
   tabs &&
@@ -46,12 +60,16 @@ if (
   tabSignup.addEventListener("click", () => setMode("signup"));
 
   // SIGN UP
-  signupForm.addEventListener("submit", (e) => {
+
+  signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const name = document.getElementById("signupName").value.trim();
+
     const email = document.getElementById("signupEmail").value.trim();
+
     const password = document.getElementById("signupPassword").value.trim();
+
     const confirmPassword = document
       .getElementById("signupConfirm")
       .value.trim();
@@ -71,57 +89,47 @@ if (
       return;
     }
 
-    // Check if user already exists
-    const users = JSON.parse(localStorage.getItem("users")) || {};
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
 
-    if (users[email]) {
-      signupHint.textContent = "Account already exists.";
-      return;
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email,
+        createdAt: new Date(),
+      });
+      signupHint.textContent = "Account created successfully!";
+
+      setTimeout(() => {
+        window.location.href = "./html/homepage.html";
+      }, 1000);
+    } catch (error) {
+      signupHint.textContent = error.message;
     }
-
-    // Save user
-    users[email] = { name, password };
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", email);
-
-    signupHint.textContent = "Account created. Redirecting...";
-
-    setTimeout(() => {
-      window.location.href = "./HTML/homepage.html";
-    }, 1000);
   });
 
   // LOGIN
-  loginForm.addEventListener("submit", (e) => {
+  loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
 
-    if (!email || !password) {
-      loginHint.textContent = "Please fill in all fields.";
-      return;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+
+      loginHint.textContent = "Login successful!";
+
+      setTimeout(() => {
+        window.location.href = "./html/homepage.html";
+      }, 1000);
+    } catch (error) {
+      loginHint.textContent = error.message;
     }
-
-    const users = JSON.parse(localStorage.getItem("users")) || {};
-
-    if (!users[email]) {
-      loginHint.textContent = "Account not found.";
-      return;
-    }
-
-    if (users[email].password !== password) {
-      loginHint.textContent = "Incorrect password.";
-      return;
-    }
-
-    loginHint.textContent = "Login successful. Redirecting...";
-
-    // Save logged-in user
-    localStorage.setItem("currentUser", email);
-
-    setTimeout(() => {
-      window.location.href = "./HTML/homepage.html";
-    }, 1000);
   });
 }
