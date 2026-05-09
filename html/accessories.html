@@ -20,6 +20,24 @@
   </head>
 
   <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
     <!-- MAIN NAVIGATION BAR -->
 
     <header>
@@ -80,19 +98,38 @@
 
         <ul class="nav-right">
           <li class="icon">
-            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="../index.html"><i class="fas fa-user"></i></a>
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
           </li>
         </ul>
       </nav>
     </header>
 
-    <!-- BAGS -->
+    <!-- ACCESSORIES CATEGORY: BAGS -->
 
     <section id="bags" class="featured-products category-section">
       <h2>Bags</h2>
@@ -160,7 +197,7 @@
       </div>
     </section>
 
-    <!-- JEWELRY -->
+    <!-- ACCESSORIES CATEGORY: JEWELRY -->
 
     <section id="jewelry" class="featured-products category-section">
       <h2>Jewelry</h2>
@@ -228,7 +265,7 @@
       </div>
     </section>
 
-    <!-- HATS -->
+    <!-- ACCESSORIES CATEGORY: HATS -->
 
     <section id="hats" class="featured-products category-section">
       <h2>Hats</h2>
@@ -288,7 +325,7 @@
       </div>
     </section>
 
-    <!-- SCARVES -->
+    <!-- ACCESSORIES CATEGORY: SCARVES -->
 
     <section id="scarves" class="featured-products category-section">
       <h2>Scarves</h2>
@@ -350,7 +387,14 @@
 
     <!-- ACCESSORIES PAGE CATEGORY DISPLAY + CAROUSEL LOGIC -->
 
-    <script>
+    <script type="module">
+      import { db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
       // Read the category from the URL
       const params = new URLSearchParams(window.location.search);
       const category = params.get("category");
@@ -409,11 +453,6 @@
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
 
-      // Load uploaded products from localStorage
-      function getUploadedProducts() {
-        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
-      }
-
       // Map accessory categories to track IDs
       function getAccessoriesTrackId(categoryName) {
         const categoryMap = {
@@ -440,8 +479,14 @@
       }
 
       // Render uploaded accessory products
-      function renderUploadedAccessories() {
-        const uploadedProducts = getUploadedProducts();
+      async function renderUploadedAccessories() {
+        const snapshot = await getDocs(collection(db, "products"));
+
+        const uploadedProducts = [];
+
+        snapshot.forEach((doc) => {
+          uploadedProducts.push(doc.data());
+        });
 
         const accessoryProducts = uploadedProducts.filter(
           (product) =>
@@ -468,6 +513,34 @@
 
       // Run it
       renderUploadedAccessories();
+      window.slideRow = slideRow;
     </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
   </body>
 </html>

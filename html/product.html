@@ -19,11 +19,34 @@
   </head>
 
   <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+
     <header>
       <nav class="nav-container">
         <div class="nav-logo">
           <a href="homepage.html">StyleMarket</a>
         </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
 
         <ul class="nav-left">
           <li class="dropdown">
@@ -71,19 +94,42 @@
           <li><a href="sell.html">Sell</a></li>
         </ul>
 
+        <!-- NAVIGATION ICONS -->
+
         <ul class="nav-right">
           <li class="icon">
-            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="../index.html"><i class="fas fa-user"></i></a>
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
           </li>
         </ul>
       </nav>
     </header>
+
+    <!-- PRODUCT DETAIL PAGE -->
 
     <section class="product-detail-page">
       <div class="product-detail-container">
@@ -92,20 +138,16 @@
         </div>
 
         <div class="product-detail-info">
-          <h1 id="productName"></h1>
+          <h1 id="productName">Loading product...</h1>
 
           <button class="wishlist-btn-detail" id="wishlistBtn">
             <i class="fa-regular fa-heart"></i> Save
           </button>
 
           <p class="product-price" id="productPrice"></p>
-
           <p class="product-condition" id="productCondition"></p>
-
           <p class="product-category" id="productCategory"></p>
-
           <p class="product-color" id="productColor"></p>
-
           <p class="product-size" id="productSize"></p>
 
           <div class="description-section">
@@ -114,1273 +156,68 @@
           </div>
 
           <div class="product-buttons">
-            <button class="add-cart-btn">Add to Cart</button>
-            <button class="buy-now-btn">Buy Now</button>
+            <button class="add-cart-btn" onclick="addToCart()">
+              Add To Cart
+            </button>
+            <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+            <button class="message-btn" onclick="openMessageBox()">
+              Message Seller
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <script>
-      // Get product key from URL
+    <!-- MAIN FUNCTIONALITY: product loading and wishlist system -->
+
+    <script src="../js/products.js"></script>
+
+    <script type="module">
+      import { auth, db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+        addDoc,
+        deleteDoc,
+        doc,
+        setDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // PRODUCT DATA LOADING
+      // Gets product from URL and combines default + uploaded products
+
       const params = new URLSearchParams(window.location.search);
       const itemKey = params.get("item");
 
-      // Load uploaded products from localStorage
-      const uploadedProducts =
-        JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+      const snapshot = await getDocs(collection(db, "products"));
 
-      // Turn uploaded product array into object format
       const uploadedProductsMap = {};
-      uploadedProducts.forEach((product) => {
-        uploadedProductsMap[product.id] = product;
+
+      snapshot.forEach((doc) => {
+        const productData = doc.data();
+        uploadedProductsMap[productData.id] = productData;
       });
 
-      // Product database
-      const products = {
-        // Women's Tops
-        ribbedtanktop: {
-          name: "Ribbed Tank Top",
-          price: "$25",
-          condition: "Excellent Condition",
-          image: "../images/ribbedtanktop.avif",
-          category: "Women's Tops",
-          color: "White",
-          size: "S",
-          description:
-            "Fitted white ribbed tank top with a high neckline and soft stretch fabric. A simple, versatile piece that pairs easily with jeans or skirts for everyday wear.",
-        },
-
-        oversizedtee: {
-          name: "Oversized Tee",
-          price: "$30",
-          condition: "New Without Tags",
-          image: "../images/womensoversizedtee.webp",
-          category: "Women's Tops",
-          color: "Black",
-          size: "L",
-          description:
-            "Oversized black crewneck t-shirt with a relaxed fit and soft cotton fabric for all-day comfort.",
-        },
-
-        silkblouse: {
-          name: "Silk Blouse",
-          price: "$35",
-          condition: "New With Tags",
-          image: "../images/womensilkblouse.webp",
-          category: "Women's Tops",
-          color: "Brown",
-          size: "M",
-          description:
-            "Elegant silk blouse with a smooth lightweight feel and a polished look.",
-        },
-
-        croppedsweater: {
-          name: "Cropped Sweater",
-          price: "$55",
-          condition: "New With Tags",
-          image: "../images/womenscroppedsweater.webp",
-          category: "Women's Tops",
-          color: "White",
-          size: "S",
-          description:
-            "Soft cropped sweater with a comfortable fit and a clean, modern silhouette. Lightweight with a cozy feel that makes it easy to wear throughout the day.",
-        },
-
-        camitop: {
-          name: "Cami Top",
-          price: "$22",
-          condition: "New With Tags",
-          image: "../images/camitop.avif",
-          category: "Women's Tops",
-          color: "White",
-          size: "S",
-          description:
-            "A sleek, fitted white cami with thin spaghetti straps and a soft stretch fabric for a comfortable, flattering fit.",
-        },
-
-        knitcardigan: {
-          name: "Knit Cardigan",
-          price: "$48",
-          condition: "Good Condition",
-          image: "../images/knitcardigan.webp",
-          category: "Women's Tops",
-          color: "Beige",
-          size: "M",
-          description:
-            "A cozy beige knit cardigan featuring black horizontal stripes and a button front design. Soft and lightweight, it’s perfect for layering over everyday outfits for a relaxed, stylish look.",
-        },
-
-        // Women's Dresses
-        floraldress: {
-          name: "Floral Dress",
-          price: "$65",
-          condition: "Used",
-          image: "../images/floral dress StyleMarket.webp",
-          category: "Women's Dresses",
-          color: "Navy Blue",
-          size: "S",
-          description:
-            "Lightweight floral dress with a soft feel and a flattering silhouette.",
-        },
-
-        mididress: {
-          name: "Midi Dress",
-          price: "$50",
-          condition: "New With Tags",
-          image: "../images/mididress.jpg",
-          category: "Women's Dresses",
-          color: "Light Brown",
-          size: "M",
-          description:
-            "Elegant midi dress with a refined shape and comfortable fit.",
-        },
-
-        maxidress: {
-          name: "Maxi Dress",
-          price: "$90",
-          condition: "Excellent Condition",
-          image: "../images/womensmaxidress.avif",
-          category: "Women's Dresses",
-          color: "Dark Brown",
-          size: "S",
-          description:
-            "Flowy maxi dress with a graceful silhouette and lightweight feel.",
-        },
-
-        bodycondress: {
-          name: "Bodycon Dress",
-          price: "$75",
-          condition: "Worn Once",
-          image: "../images/bodycondress.jpg",
-          category: "Women's Dresses",
-          color: "Taupe",
-          size: "S",
-          description:
-            "Fitted bodycon dress with a sleek shape and smooth stretch fabric.",
-        },
-
-        stripeddress: {
-          name: "Striped Dress",
-          price: "$80",
-          condition: "Excellent Condition",
-          image: "../images/stripeddress.webp",
-          category: "Women's Dresses",
-          color: "Black/White",
-          size: "L",
-          description:
-            "A stylish sleeveless midi dress featuring bold vertical stripes and a flattering tie waisted belt. Designed with a lightweight fabric, it offers a comfortable yet polished look.",
-        },
-
-        shortflared: {
-          name: "Short Flared Dress",
-          price: "$60",
-          condition: "New Without Tags",
-          image: "../images/shortflared.webp",
-          category: "Women's Dresses",
-          color: "Light Blue",
-          size: "S",
-          description:
-            "A chic sleeveless mini dress in a soft light blue shade, featuring a flared skirt for a flattering silhouette. Elegant and lightweight, it’s perfect for parties, dinners, or stylish daytime outings.",
-        },
-
-        // Women's Bottoms
-        widelegjeans: {
-          name: "Wide Leg Jeans",
-          price: "$48",
-          condition: "Worn Once",
-          image: "../images/widelegjeans.webp",
-          category: "Women's Bottoms",
-          color: "Blue",
-          size: "M",
-          description:
-            "Classic wide leg jeans with a relaxed fit and durable denim fabric for everyday comfort.",
-        },
-
-        miniskirt: {
-          name: "Mini Skirt",
-          price: "$54",
-          condition: "New With Tags",
-          image: "../images/miniskirt.webp",
-          category: "Women's Bottoms",
-          color: "Gray",
-          size: "S",
-          description:
-            "Stylish mini skirt with a flattering fit and lightweight fabric.",
-        },
-
-        womencargopants: {
-          name: "Cargo Pants",
-          price: "$42",
-          condition: "Used",
-          image: "../images/cargopants.jpeg",
-          category: "Women's Bottoms",
-          color: "Black",
-          size: "M",
-          description:
-            "Casual cargo pants with a relaxed fit and functional pockets.",
-        },
-
-        womenlinenpants: {
-          name: "Linen Pants",
-          price: "$28",
-          condition: "New With Tags",
-          image: "../images/linenpants.webp",
-          category: "Women's Bottoms",
-          color: "Beige",
-          size: "L",
-          description:
-            "Lightweight linen pants with a breathable fabric and comfortable fit.",
-        },
-
-        blackjeans: {
-          name: "Black Jeans",
-          price: "$52",
-          condition: "Worn Once",
-          image: "../images/blackjeans.webp",
-          category: "Women's Bottoms",
-          color: "Black",
-          size: "S",
-          description:
-            "Classic black skinny jeans. They are made with a comfortable stretch fabric and they provide a flattering fit.",
-        },
-
-        pleatedskirt: {
-          name: "Pleated Skirt",
-          price: "$32",
-          condition: "Excellent Condition",
-          image: "../images/pleatedskirt.jpg",
-          category: "Women's Bottoms",
-          color: "Pink",
-          size: "L",
-          description:
-            "A vibrant red pleated midi skirt with a high waisted design that creates a flattering, flowing silhouette.",
-        },
-
-        // Women's Outerwear
-        denimjacket: {
-          name: "Denim Jacket",
-          price: "$65",
-          condition: "Excellent Condition",
-          image: "../images/denimjacket.jpeg",
-          category: "Women's Outerwear",
-          color: "Blue",
-          size: "S",
-          description:
-            "Classic denim jacket with a structured fit and durable fabric. A timeless layer with an easy everyday feel.",
-        },
-
-        trenchcoat: {
-          name: "Trench Coat",
-          price: "$85",
-          condition: "Worn Once",
-          image: "../images/trenchcoat.webp",
-          category: "Women's Outerwear",
-          color: "Beige",
-          size: "L",
-          description:
-            "Elegant trench coat with a clean silhouette and lightweight feel. Polished and comfortable for everyday wear.",
-        },
-
-        bomberjacket: {
-          name: "Bomber Jacket",
-          price: "$70",
-          condition: "Used",
-          image: "../images/bomberjacket.webp",
-          category: "Women's Outerwear",
-          color: "Dark Brown",
-          size: "S",
-          description:
-            "Stylish bomber jacket with a relaxed fit and smooth finish. A versatile layer with a modern look.",
-        },
-
-        womenspufferjacket: {
-          name: "Puffer Jacket",
-          price: "$90",
-          condition: "New With Tags",
-          image: "../images/womenspufferjacket.webp",
-          category: "Women's Outerwear",
-          color: "Black",
-          size: "M",
-          description:
-            "Warm puffer jacket with a comfortable fit and lightweight feel. Designed to keep you cozy without feeling bulky.",
-        },
-
-        fleecejacket: {
-          name: "Fleece Jacket",
-          price: "$40",
-          condition: "Used",
-          image: "../images/fleecejacket.jpg",
-          category: "Women's Outerwear",
-          color: "Purple",
-          size: "M",
-          description:
-            "A soft, lightweight fleece jacket with a full zip front and high collar for warmth and comfort.",
-        },
-
-        woolcoat: {
-          name: "Wool Coat",
-          price: "$120",
-          condition: "New With Tags",
-          image: "../images/woolcoat.webp",
-          category: "Women's Outerwear",
-          color: "Purple",
-          size: "L",
-          description:
-            "A classic long wool coat with a tailored fit and button front closure. Its clean, minimalist design makes it ideal for both everyday wear and more polished outfits during colder seasons.",
-        },
-
-        // Women's Activewear
-        sportsbra: {
-          name: "Sports Bra",
-          price: "$35",
-          condition: "New With Tags",
-          image: "../images/sportsbra.webp",
-          category: "Women's Activewear",
-          color: "Light Purple",
-          size: "S",
-          description:
-            "Supportive sports bra with soft stretch fabric. Made for comfort and ease of movement.",
-        },
-
-        leggings: {
-          name: "Leggings",
-          price: "$40",
-          condition: "Excellent Condition",
-          image: "../images/leggings.jpg",
-          category: "Women's Activewear",
-          color: "Blue",
-          size: "M",
-          description:
-            "Soft stretch leggings with a flattering fit and comfortable feel. Lightweight and easy to wear throughout the day.",
-        },
-
-        workoutset: {
-          name: "Workout Set",
-          price: "$75",
-          condition: "New Without Tags",
-          image: "../images/workoutset.webp",
-          category: "Women's Activewear",
-          color: "Purple",
-          size: "S",
-          description:
-            "Matching workout set with a sleek fit and flexible fabric. Designed for comfort with a clean, sporty look.",
-        },
-
-        runningshorts: {
-          name: "Running Shorts",
-          price: "$44",
-          condition: "New With Tags",
-          image: "../images/runningshorts.webp",
-          category: "Women's Activewear",
-          color: "Black",
-          size: "L",
-          description:
-            "Lightweight running shorts with a relaxed fit and breathable feel. Comfortable for movement and everyday wear.",
-        },
-
-        yogajacket: {
-          name: "Yoga Jacket",
-          price: "$58",
-          condition: "Worn Once",
-          image: "../images/yogajacket.webp",
-          category: "Women's Activewear",
-          color: "White",
-          size: "M",
-          description:
-            "A sleek, fitted athletic jacket with a full zip and stretch fabric for comfort and mobility. It's ideal for workouts, running, or layering for workouts.",
-        },
-
-        womentrackpants: {
-          name: "Track Pants",
-          price: "$46",
-          condition: "Excellent Condition",
-          image: "../images/womentrackpants.webp",
-          category: "Women's Activewear",
-          color: "Black",
-          size: "L",
-          description:
-            "Lightweight track pants with an elastic waistband and tapered fit for comfort and movement. Perfect for training, lounging, or casual streetwear.",
-        },
-
-        //Men's Tops
-        basictee: {
-          name: "Basic T-Shirt",
-          price: "$25",
-          condition: "New With Tags",
-          image: "../images/basictee.webp",
-          category: "Men's Tops",
-          color: "Black",
-          size: "L",
-          description: "A comfortable and stylish t-shirt for everyday wear.",
-        },
-
-        oversizedhoodie: {
-          name: "Oversized Hoodie",
-          price: "$55",
-          condition: "Used",
-          image: "../images/oversizedhoodie.jpeg",
-          category: "Men's Tops",
-          color: "Blue",
-          size: "L",
-          description:
-            "A modern everyday hoodie with a structured fit, minimal detailing, and a versatile look that works for both casual and athleisure outfits.",
-        },
-
-        poloshirt: {
-          name: "Polo Shirt",
-          price: "$35",
-          condition: "New Without Tags",
-          image: "../images/poloshirt.jpeg",
-          category: "Men's Tops",
-          color: "Cream",
-          size: "M",
-          description:
-            "A clean, versatile polo shirt with a soft fabric and tailored fit. It includes a buttoned collar for a polished yet casual look.",
-        },
-
-        crewnecksweater: {
-          name: "Crewneck Sweater",
-          price: "$42",
-          condition: "Excellent Condition",
-          image: "../images/crewnecksweater.webp",
-          category: "Men's Tops",
-          color: "Tan",
-          size: "M",
-          description:
-            "A cozy ribbed sweater with a relaxed fit and soft knit texture.",
-        },
-
-        flannelshirt: {
-          name: "Flannel Shirt",
-          price: "$45",
-          condition: "New With Tags",
-          image: "../images/flannelshirt.jpeg",
-          category: "Men's Tops",
-          color: "Black",
-          size: "M",
-          description:
-            "A versatile plaid overshirt with a relaxed fit and buttons in the front. It's designed for layering and it combines the look of a shirt with the warmth of a lightweight jacket.",
-        },
-
-        athletictee: {
-          name: "Athletic T-Shirt",
-          price: "$42",
-          condition: "Worn Once",
-          image: "../images/athletictee.webp",
-          category: "Men's Tops",
-          color: "Gray",
-          size: "M",
-          description:
-            "A lightweight and breathable t-shirt designed for workouts and active wear. It features a fitted cut and breathable fabric to keep you cool and comfortable during training or everyday use.",
-        },
-
-        //Men's Bottoms
-        slimjeans: {
-          name: "Slim Jeans",
-          price: "$60",
-          condition: "New With Tags",
-          image: "../images/slimjeans.jpeg",
-          category: "Men's Bottoms",
-          color: "Blue",
-          size: "S",
-          description:
-            "Clean cut denim with a tailored slim fit and classic styling. It is finished in a versatile blue wash.",
-        },
-
-        mencargopants: {
-          name: "Cargo Pants",
-          price: "$48",
-          condition: "Excellent Condition",
-          image: "../images/mencargo.webp",
-          category: "Men's Bottoms",
-          color: "Gray",
-          size: "L",
-          description:
-            "Utility styled pants with multiple side pockets and a relaxed fit. It has a gray tone with a structured and street ready look.",
-        },
-
-        casualshorts: {
-          name: "Casual Shorts",
-          price: "$30",
-          condition: "New Without Tags",
-          image: "../images/menshorts.webp",
-          category: "Men's Bottoms",
-          color: "Blue",
-          size: "M",
-          description:
-            "Easygoing shorts with a relaxed fit, navy finish and simple drawstring waist.",
-        },
-
-        sweatpants: {
-          name: "Sweatpants",
-          price: "$44",
-          condition: "Used",
-          image: "../images/sweatpants.webp",
-          category: "Men's Bottoms",
-          color: "Light Gray",
-          size: "L",
-          description:
-            "Soft light gray sweats with a relaxed fit and cuffed ankles.",
-        },
-
-        menlinenpants: {
-          name: "Linen Pants",
-          price: "$50",
-          condition: "New With Tags",
-          image: "../images/menlinenpants.jpeg",
-          category: "Men's Bottoms",
-          color: "Beige",
-          size: "M",
-          description:
-            "Easygoing pants made from airy fabric with a loose fit that is designed for everyday wear.",
-        },
-
-        joggersmen: {
-          name: "Joggers",
-          price: "$46",
-          condition: "New With Tags",
-          image: "../images/joggersmen.jpg",
-          category: "Men's Bottoms",
-          color: "Gray",
-          size: "L",
-          description:
-            "Gray track pants with a sleek, athletic fit and signature side stripes. Comfortable and perfect for everyday or active wear.",
-        },
-
-        //Men's Outerwear
-        menbomberjacket: {
-          name: "Bomber Jacket",
-          price: "$78",
-          condition: "New With Tags",
-          image: "../images/menbomber.jpeg",
-          category: "Men's Outerwear",
-          color: "Green",
-          size: "S",
-          description:
-            "Relaxed zip up jacket with ribbed cuffs, soft lining, and a slightly structured shape that's perfect for everyday wear.",
-        },
-
-        mendenim: {
-          name: "Denim Jacket",
-          price: "$72",
-          condition: "Used",
-          image: "../images/mendenim.webp",
-          category: "Men's Outerwear",
-          color: "Blue",
-          size: "L",
-          description:
-            "Classic light-wash denim jacket with button-up front, chest pockets, and a clean structured fit.",
-        },
-
-        menpuffer: {
-          name: "Puffer Coat",
-          price: "$95",
-          condition: "New Without Tags",
-          image: "../images/menpuffer.avif",
-          category: "Men's Outerwear",
-          color: "Black",
-          size: "L",
-          description:
-            "Thick padded jacket with a boxy feel and high collar, perfect for staying warm.",
-        },
-
-        varsityjacket: {
-          name: "Varsity Jacket",
-          price: "$88",
-          condition: "Worn Once",
-          image: "../images/varsityjacket.webp",
-          category: "Men's Outerwear",
-          color: "Black",
-          size: "L",
-          description:
-            "Classic two-tone jacket with snap buttons, striped cuffs, and a relaxed feel.",
-        },
-
-        menwindbreaker: {
-          name: "Windbreaker",
-          price: "$60",
-          condition: "Excellent Condition",
-          image: "../images/menwindbreaker.webp",
-          category: "Men's Outerwear",
-          color: "Gray",
-          size: "S",
-          description:
-            "Lightweight jacket with a hood, snap buttons, and a clean two-tone look, easy to wear when the weather's unpredictable.",
-        },
-
-        menwoolcoat: {
-          name: "Wool Coat",
-          price: "$110",
-          condition: "Used",
-          image: "../images/menwoolcoat.jpeg",
-          category: "Men's Outerwear",
-          color: "Camel",
-          size: "S",
-          description:
-            "Long camel coat with a tailored shape, button front, and clean lines.",
-        },
-
-        //Men's Activewear
-        mengymset: {
-          name: "Gym Set",
-          price: "$50",
-          condition: "New With Tags",
-          image: "../images/mengymset.webp",
-          category: "Men's Activewear",
-          color: "Blue",
-          size: "M",
-          description:
-            "Matching long sleeve top and shorts in a clean blue tone, simple and easy for workouts or just staying active.",
-        },
-
-        menrunningshorts: {
-          name: "Running Shorts",
-          price: "$30",
-          condition: "Excellent Condition",
-          image: "../images/menrunningshorts.webp",
-          category: "Men's Activewear",
-          color: "Black",
-          size: "M",
-          description:
-            "Lightweight black shorts with a flexible fit and clean look, made to move without getting in the way.",
-        },
-
-        sportstee: {
-          name: "Sports Tee",
-          price: "$34",
-          condition: "New With Tags",
-          image: "../images/sportstee.webp",
-          category: "Men's Activewear",
-          color: "Blue",
-          size: "L",
-          description:
-            "Light, breathable tee with a smooth feel and simple blue look that works with anything.",
-        },
-
-        trackpants: {
-          name: "Track Pants",
-          price: "$46",
-          condition: "New With Tags",
-          image: "../images/trackpants.webp",
-          category: "Men's Activewear",
-          color: "Black",
-          size: "L",
-          description:
-            "Slim black pants with a smooth finish and subtle logo detail, easy to wear and keep things simple.",
-        },
-
-        compressionshirt: {
-          name: "Compression Shirt",
-          price: "$34",
-          condition: "Excellent Condition",
-          image: "../images/compressionshirt.jpg",
-          category: "Men's Activewear",
-          color: "White",
-          size: "M",
-          description:
-            "Fitted white performance tee that is lightweight, breathable, and made for training or everyday wear.",
-        },
-
-        //Sneakers
-        whitesneakers: {
-          name: "White Sneakers",
-          price: "$65",
-          condition: "Worn Once",
-          image: "../images/menwhitesneakers.webp",
-          category: "Sneakers",
-          color: "White",
-          size: "8",
-          description:
-            "All white sneakers with a clean, smooth finish and a simple low cut shape that goes with pretty much anything.",
-        },
-
-        platformsneakers: {
-          name: "Platform Sneakers",
-          price: "$78",
-          condition: "New With Tags",
-          image: "../images/platformsneakers.webp",
-          category: "Sneakers",
-          color: "Beige/Green",
-          size: "9",
-          description: "Beige sneakers with green stripes and a chunky sole.",
-        },
-
-        runningtrainers: {
-          name: "Running Trainers",
-          price: "$72",
-          condition: "New Without Tags",
-          image: "../images/runningsneakers.webp",
-          category: "Sneakers",
-          color: "Black/White",
-          size: "10",
-          description:
-            "Mesh upper with chunky cushioning and layered panels, built for comfort with that sporty, everyday look.",
-        },
-
-        hightops: {
-          name: "High-Top Sneakers",
-          price: "$85",
-          condition: "New With Tags",
-          image: "../images/hightop.webp",
-          category: "Sneakers",
-          color: "Black",
-          size: "9",
-          description:
-            "High cut sneakers with a structured shape and bold look.",
-        },
-
-        lowtops: {
-          name: "Low-Top Sneakers",
-          price: "$68",
-          condition: "Excellent Condition",
-          image: "../images/lowtopsneakers.jpeg",
-          category: "Sneakers",
-          color: "Black",
-          size: "8",
-          description:
-            "Black canvas with a white toe cap and sole, laid back and easy to wear with anything.",
-        },
-
-        retrosneakers: {
-          name: "Retro Sneakers",
-          price: "$90",
-          condition: "Worn Once",
-          image: "../images/retro.webp",
-          category: "Sneakers",
-          color: "White",
-          size: "9",
-          description:
-            "White base with bold blue, yellow, and green accents and a chunky sole that gives off a throwback vibe with a bit of color pop.",
-        },
-
-        //Heels
-        stilettos: {
-          name: "Stilettos",
-          price: "$85",
-          condition: "Excellent Condition",
-          image: "../images/stiletto.webp",
-          category: "Heels",
-          color: "White",
-          size: "8",
-          description: "Pointed heels with a sharp shape and slim heel.",
-        },
-
-        blockheels: {
-          name: "Block Heels",
-          price: "$70",
-          condition: "New With Tags",
-          image: "../images/blockheels.webp",
-          category: "Heels",
-          color: "Brown",
-          size: "6",
-          description:
-            "Smooth brown heels with a pointed toe, slingback strap, and chunky heel while giving a bit of height.",
-        },
-
-        kittenheels: {
-          name: "Kitten Heels",
-          price: "$65",
-          condition: "New Without Tags",
-          image: "../images/kittenheels.jpg",
-          category: "Heels",
-          color: "Brown",
-          size: "8",
-          description:
-            "Sheer mesh heels with detailed embroidery, a pointed toe, and a slim heel that adds a soft touch.",
-        },
-
-        platformheels: {
-          name: "Platform Heels",
-          price: "$90",
-          condition: "Worn Once",
-          image: "../images/platform.webp",
-          category: "Heels",
-          color: "White",
-          size: "7",
-          description:
-            "Chunky platform heels with a rounded toe, ankle strap, and heart buckle detail.",
-        },
-
-        strappyheels: {
-          name: "Strappy Heels",
-          price: "$78",
-          condition: "New With Tags",
-          image: "../images/strappyheels.webp",
-          category: "Heels",
-          color: "Silver",
-          size: "9",
-          description:
-            "Shiny silver heels with thin rhinestone straps and a tall heel.",
-        },
-
-        wedges: {
-          name: "Wedges",
-          price: "$85",
-          condition: "Used",
-          image: "../images/wedgesheel.jpeg",
-          category: "Heels",
-          color: "Nude",
-          size: "8",
-          description: "Neutral toned wedge heel and thin ankle strap.",
-        },
-
-        //Flats
-        balletflats: {
-          name: "Ballet Flats",
-          price: "$40",
-          condition: "New With Tags",
-          image: "../images/balletflats.webp",
-          category: "Flats",
-          color: "Black",
-          size: "7",
-          description:
-            "Classic black ballet flats with a rounded toe and simple design.",
-        },
-
-        loafers: {
-          name: "Loafers",
-          price: "$55",
-          condition: "Worn Once",
-          image: "../images/thursdayboots.webp",
-          category: "Flats",
-          color: "Black",
-          size: "9",
-          description:
-            "Glossy black loafers with a chunky sole and gold chain detail.",
-        },
-
-        leatherflats: {
-          name: "Leather Flats",
-          price: "$50",
-          condition: "Excellent Condition",
-          image: "../images/leatherflats.webp",
-          category: "Flats",
-          color: "Brown",
-          size: "7",
-          description:
-            "Simple brown flats with a smooth finish and small bow detail.",
-        },
-
-        slipons: {
-          name: "Slip-On Shoes",
-          price: "$38",
-          condition: "New With Tags",
-          image: "../images/sliponswomen.webp",
-          category: "Flats",
-          color: "Brown",
-          size: "8",
-          description:
-            "Minimal brown slide sandals with clean cut out details and a flat sole that makes it breathable, and perfect for everyday summer wear.",
-        },
-
-        pointedflats: {
-          name: "Pointed Flats",
-          price: "$48",
-          condition: "New With Tags",
-          image: "../images/pointedflatstommy.webp",
-          category: "Flats",
-          color: "Cream",
-          size: "6",
-          description:
-            "Sleek cream slingback flats with a pointed toe and subtle gold detail",
-        },
-
-        //Boots
-        ankleboots: {
-          name: "Ankle Boots",
-          price: "$95",
-          condition: "Worn Once",
-          image: "../images/ankleboots.webp",
-          category: "Boots",
-          color: "Brown",
-          size: "7",
-          description:
-            "Rich brown ankle boots with a sturdy block heel and streamlined shape.",
-        },
-
-        kneehighboots: {
-          name: "Knee High Boots",
-          price: "$120",
-          condition: "New With Tags",
-          image: "../images/kneeboots.jpeg",
-          category: "Boots",
-          color: "Black",
-          size: "8",
-          description:
-            "Black knee high boots with a slim heel and pointed toe adds a sharp look and it's a easy way to dress up any outfit.",
-        },
-
-        combatboots: {
-          name: "Combat Boots",
-          price: "$110",
-          condition: "Used",
-          image: "../images/mencombatboots.webp",
-          category: "Boots",
-          color: "Brown",
-          size: "11",
-          description:
-            "Brown lace up boots with a chunky sole that has a rugged feel and is built for everyday wear.",
-        },
-
-        chelseaboots: {
-          name: "Chelsea Boots",
-          price: "$88",
-          condition: "New With Tags",
-          image: "../images/chelseaboot.jpg",
-          category: "Boots",
-          color: "Black",
-          size: "9",
-          description:
-            "Black Chelsea boots with a clean finish and thick sole. It is simple, comfortable, and easy to wear anywhere.",
-        },
-
-        snowboots: {
-          name: "Snow Boots",
-          price: "$130",
-          condition: "New With Tags",
-          image: "../images/menwinterboots.jpeg",
-          category: "Boots",
-          color: "Tan",
-          size: "11",
-          description:
-            "Classic tan boots with a tough build and solid grip. It's designed to keep you warm and dry in cold weather, they have a rugged look that works with casual outfits.",
-        },
-
-        //Sandals
-        menbeachsandals: {
-          name: "Beach Sandals",
-          price: "$35",
-          condition: "New Without Tags",
-          image: "../images/menbeachsandals.webp",
-          category: "Sandals",
-          color: "Brown",
-          size: "10",
-          description:
-            "Brown beach sandals with a simple strap that is easy to slip on and are perfect for the beach.",
-        },
-
-        designersandals: {
-          name: "Designer Sandals",
-          price: "$170",
-          condition: "New With Tags",
-          image: "../images/designerpradasandals.avif",
-          category: "Sandals",
-          color: "Black",
-          size: "8",
-          description:
-            "Black Prada sandals with a bold strap design. It isclean, comfortable, and adds a more elevated look to casual outfits.",
-        },
-
-        platformsandals: {
-          name: "Platform Sandals",
-          price: "$75",
-          condition: "Worn Once",
-          image: "../images/platformsandals.webp",
-          category: "Sandals",
-          color: "Black",
-          size: "7",
-          description:
-            "Black platform sandals with a thick sole and ankle strap that is comfortable and a little elevated.",
-        },
-
-        strappysandals: {
-          name: "Strappy Sandals",
-          price: "$35",
-          condition: "Excellent Condition",
-          image: "../images/strappysandals.webp",
-          category: "Sandals",
-          color: "Nude",
-          size: "7",
-          description:
-            "Nude strappy sandals with rhinestone details and a small bow.",
-        },
-
-        sportssandals: {
-          name: "Sports Sandals",
-          price: "$40",
-          condition: "Used",
-          image: "../images/sportssandals.webp",
-          category: "Sandals",
-          color: "Gray",
-          size: "10",
-          description:
-            "Gray sporty sandals with a thick sole and adjustable straps for a comfortable fit.",
-        },
-
-        //bags
-        totebag: {
-          name: "Tote Bag",
-          price: "$135",
-          condition: "Excellent Condition",
-          image: "../images/totebag.webp",
-          category: "Bags",
-          color: "Black",
-          size: "One Size",
-          description:
-            "A spacious black tote bag with sturdy handles and a simple design, perfect for carrying your essentials in style.",
-        },
-
-        shoulderbag: {
-          name: "Shoulder Bag",
-          price: "$90",
-          condition: "New With Tags",
-          image: "../images/shoulderbag.webp",
-          category: "Bags",
-          color: "Red",
-          size: "One Size",
-          description:
-            "Red shoulder bag with a smooth, slightly glossy finish and is a curved medium sized shape. It fits your essentials easily, and the slim strap keeps it clean and easy to carry.",
-        },
-
-        crossbodybag: {
-          name: "Crossbody Bag",
-          price: "$55",
-          condition: "New Without Tags",
-          image: "../images/crossbodybag.webp",
-          category: "Bags",
-          color: "Black",
-          size: "One Size",
-          description:
-            "Black crossbody sling bag with a compact shape and front zip pocket.",
-        },
-
-        menbackpack: {
-          name: "Backpack",
-          price: "$70",
-          condition: "Used",
-          image: "../images/menbackpack.webp",
-          category: "Bags",
-          color: "Navy",
-          size: "One Size",
-          description:
-            "Navy backpack with a simple design and a medium sized front pocket. It fits all your daily stuff, and is easy to carry anywhere.",
-        },
-
-        menwallet: {
-          name: "Wallet",
-          price: "$63",
-          condition: "New With Tags",
-          image: "../images/menwallet.webp",
-          category: "Bags",
-          color: "Green",
-          size: "One Size",
-          description:
-            "Olive green wallet that has a slim build compact, is easy to carry, and fits your cards and cash without taking up space.",
-        },
-
-        clutch: {
-          name: "Clutch",
-          price: "$45",
-          condition: "New Without Tags",
-          image: "../images/clutch.webp",
-          category: "Bags",
-          color: "Beige/Pink",
-          size: "One Size",
-          description:
-            "Beaded clutch in a soft champagne color with pearl detailings. It is elegant and perfect for formal events or nights out.",
-        },
-
-        //jewlery
-        goldnecklace: {
-          name: "Gold Necklace",
-          price: "$30",
-          condition: "Worn Once",
-          image: "../images/gold.webp",
-          category: "Jewelry",
-          color: "Gold",
-          size: "One Size",
-          description:
-            "A gold necklace that is lightweight and features a small double ring pendant.",
-        },
-
-        earrings: {
-          name: "Earrings",
-          price: "$85",
-          condition: "New With Tags",
-          image: "../images/earrings.webp",
-          category: "Jewelry",
-          color: "White/Gold",
-          size: "One Size",
-          description:
-            "Delicate floral earrings with a gold outline and soft pink center.",
-        },
-
-        bracelet: {
-          name: "Bracelet",
-          price: "$20",
-          condition: "New Without Tags",
-          image: "../images/bracelet.webp",
-          category: "Jewelry",
-          color: "Black",
-          size: "One Size",
-          description:
-            "A black gemstone bracelet with a sleek, polished finish. It is minimalistic and adds a subtle edge.",
-        },
-
-        silverring: {
-          name: "Silver Ring",
-          price: "$55",
-          condition: "Excellent Condition",
-          image: "../images/silverring.webp",
-          category: "Jewelry",
-          color: "Silver",
-          size: "One Size",
-          description:
-            "Silver ring with a smooth band and small diamond details",
-        },
-
-        anklet: {
-          name: "Anklet",
-          price: "$15",
-          condition: "Used",
-          image: "../images/anklet.webp",
-          category: "Jewelry",
-          color: "Gold",
-          size: "One Size",
-          description:
-            "Gold anklet with a twisted chain and small bead accents.",
-        },
-
-        hoopearrings: {
-          name: "Hoop Earrings",
-          price: "$22",
-          condition: "New With Tags",
-          image: "../images/hoopearrings.webp",
-          category: "Jewelry",
-          color: "Gold",
-          size: "One Size",
-          description:
-            "Gold hoop earrings with a thick, smooth finish and a bold look with a clean shine.",
-        },
-
-        //hats
-        baseballcap: {
-          name: "Baseball Cap",
-          price: "$65",
-          condition: "New With Tags",
-          image: "../images/bluecap.webp",
-          category: "Hats",
-          color: "Blue",
-          size: "One Size",
-          description: "Navy cap with a curved brim and NY logo.",
-        },
-
-        beanie: {
-          name: "Beanie",
-          price: "$44",
-          condition: "Worn Once",
-          image: "../images/beanie.webp",
-          category: "Hats",
-          color: "Black",
-          size: "One Size",
-          description:
-            "A simple black beanie with a snug fit and a soft warm fabric.",
-        },
-
-        buckethat: {
-          name: "Bucket Hat",
-          price: "$26",
-          condition: "Used",
-          image: "../images/buckethat.webp",
-          category: "Hats",
-          color: "Black/ Brown",
-          size: "One Size",
-          description:
-            "Leopard print bucket hat has a soft feel and bold pattern that stands out.",
-        },
-
-        sunhat: {
-          name: "Sun Hat",
-          price: "$32",
-          condition: "New With Tags",
-          image: "../images/sunhat.webp",
-          category: "Hats",
-          color: "Tan",
-          size: "One Size",
-          description:
-            "A tan sun hat with a wide brim and ribbon. It is lightweight and breathable for sunny days.",
-        },
-
-        cowboyhat: {
-          name: "Cowboy Hat",
-          price: "$30",
-          condition: "New Without Tags",
-          image: "../images/cowboyhat.avif",
-          category: "Hats",
-          color: "Brown",
-          size: "One Size",
-          description:
-            "A classic brown cowboy hat with a structured shape and a simple band detail.",
-        },
-
-        //scarves
-        woolscarf: {
-          name: "Wool Scarf",
-          price: "$60",
-          condition: "New Without Tags",
-          image: "../images/scarf.webp",
-          category: "Scarves",
-          color: "Deep Red",
-          size: "One Size",
-          description:
-            "Deep red wool scarf with a soft, cozy feel and fringe edges.",
-        },
-
-        silkscarf: {
-          name: "Silk Scarf",
-          price: "$45",
-          condition: "New With Tags",
-          image: "../images/silk.webp",
-          category: "Scarves",
-          color: "Red/White",
-          size: "One Size",
-          description: "A vibrant red silk scarf with polka dots.",
-        },
-
-        fringedscarf: {
-          name: "Fringed Scarf",
-          price: "$40",
-          condition: "Used",
-          image: "../images/winterscarf.webp",
-          category: "Scarves",
-          color: "Blue/Gray",
-          size: "One Size",
-          description:
-            "Blue and gray fringed scarf with a soft feel and a bold pattern.",
-        },
-
-        cablescarf: {
-          name: "Cable Knit Scarf",
-          price: "$30",
-          condition: "Excellent Condition",
-          image: "../images/cablescarf.webp",
-          category: "Scarves",
-          color: "Gray",
-          size: "One Size",
-          description:
-            "Dark gray cable knit scarf that's thick, soft, and made to keep you warm.",
-        },
-
-        printedscarf: {
-          name: "Printed Scarf",
-          price: "$28",
-          condition: "New With Tags",
-          image: "../images/printedscarf.jpg",
-          category: "Scarves",
-          color: "Cheetah Print",
-          size: "One Size",
-          description: "Leopard print scarf in brown and black tones.",
-        },
-
+      const allProducts = {
+        ...window.products,
         ...uploadedProductsMap,
       };
 
-      // Find selected product using key from URL
-      const product = products[itemKey];
+      const product = allProducts[itemKey];
 
-      // Display product details on the page
-      if (product) {
+      if (!product) {
+        document.querySelector(".product-detail-info").innerHTML = `
+    <h1>Product Not Found</h1>
+    <p>This product could not be loaded. Please go back and select another item.</p>
+    <a href="homepage.html" class="wishlist-shop-link">Continue Shopping</a>
+  `;
+      }
+
+      // PRODUCT DISPLAY
+      // Inserts product details into the page
+      else {
         document.getElementById("productName").textContent = product.name;
         document.getElementById("productPrice").textContent = product.price;
         document.getElementById("productCondition").innerHTML =
@@ -1394,83 +231,250 @@
           "<strong>Color:</strong> " + product.color;
         document.getElementById("productDescription").textContent =
           product.description;
+
+        updateWishlistButton(product);
       }
 
-      // WISHLIST FUNCTIONS (LOCAL STORAGE)
+      // WISHLIST SYSTEM
 
-      // Get wishlist from localStorage
-      function getWishlist() {
-        return JSON.parse(localStorage.getItem("wishlist")) || [];
-      }
+      async function addToWishlist(item) {
+        const user = auth.currentUser;
 
-      // Save wishlist to localStorage
-      function saveWishlist(wishlist) {
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-      }
+        if (!user) return;
 
-      // Add item to wishlist if not already saved
-      function addToWishlist(item) {
-        let wishlist = getWishlist();
-
-        const alreadyExists = wishlist.some(
-          (wishlistItem) => wishlistItem.name === item.name,
+        const snapshot = await getDocs(
+          collection(db, "users", user.uid, "wishlist"),
         );
 
-        if (!alreadyExists) {
-          wishlist.push(item);
-          saveWishlist(wishlist);
+        let exists = false;
+
+        snapshot.forEach((doc) => {
+          if (doc.data().name === item.name) {
+            exists = true;
+          }
+        });
+
+        if (!exists) {
+          await addDoc(collection(db, "users", user.uid, "wishlist"), item);
         }
       }
 
-      // Remove item from wishlist
-      function removeFromWishlist(name) {
-        let wishlist = getWishlist();
-        wishlist = wishlist.filter((item) => item.name !== name);
-        saveWishlist(wishlist);
+      async function removeFromWishlist(name) {
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        const snapshot = await getDocs(
+          collection(db, "users", user.uid, "wishlist"),
+        );
+
+        for (const wishlistDoc of snapshot.docs) {
+          if (wishlistDoc.data().name === name) {
+            await deleteDoc(
+              doc(db, "users", user.uid, "wishlist", wishlistDoc.id),
+            );
+          }
+        }
       }
 
-      // Check if item is already in wishlist
-      function isInWishlist(name) {
-        const wishlist = getWishlist();
-        return wishlist.some((item) => item.name === name);
+      async function isInWishlist(name) {
+        const user = auth.currentUser;
+
+        if (!user) return false;
+
+        const snapshot = await getDocs(
+          collection(db, "users", user.uid, "wishlist"),
+        );
+
+        let exists = false;
+
+        snapshot.forEach((doc) => {
+          if (doc.data().name === name) {
+            exists = true;
+          }
+        });
+
+        return exists;
       }
 
-      // Update button UI (Saved / Save)
-      function updateWishlistButton(product) {
-        const wishlistBtn = document.getElementById("wishlistBtn");
-        if (!wishlistBtn) return;
+      async function updateWishlistButton(product) {
+        const btn = document.getElementById("wishlistBtn");
 
-        if (isInWishlist(product.name)) {
-          wishlistBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Saved';
-          wishlistBtn.classList.add("active");
+        if (await isInWishlist(product.name)) {
+          btn.innerHTML = '<i class="fa-solid fa-heart"></i> Saved';
+          btn.classList.add("active");
         } else {
-          wishlistBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Save';
-          wishlistBtn.classList.remove("active");
+          btn.innerHTML = '<i class="fa-regular fa-heart"></i> Save';
+          btn.classList.remove("active");
         }
       }
+
+      window.product = product;
+      window.itemKey = itemKey;
+
+      window.isInWishlist = isInWishlist;
+      window.addToWishlist = addToWishlist;
+      window.removeFromWishlist = removeFromWishlist;
+      window.updateWishlistButton = updateWishlistButton;
+
+      window.auth = auth;
+      window.db = db;
+      window.addDoc = addDoc;
+      window.collection = collection;
+      window.serverTimestamp = serverTimestamp;
+      window.doc = doc;
+      window.setDoc = setDoc;
     </script>
+
+    <!-- WISHLIST BUTTON INTERACTION -->
+
     <script>
-      // WISHLIST BUTTON INTERACTION
+      // Toggles wishlist state when button is clicked
+
       const wishlistBtn = document.getElementById("wishlistBtn");
 
-      // Handle click to add/remove item from wishlist
-      wishlistBtn.addEventListener("click", function () {
+      wishlistBtn.addEventListener("click", async function () {
         const itemData = {
+          id: itemKey,
           name: product.name,
           price: product.price,
           image: product.image,
         };
 
-        if (isInWishlist(product.name)) {
-          removeFromWishlist(product.name);
+        if (await isInWishlist(product.name)) {
+          await removeFromWishlist(product.name);
         } else {
-          addToWishlist(itemData);
+          await addToWishlist(itemData);
         }
 
-        updateWishlistButton(product);
+        await updateWishlistButton(product);
       });
-      // Initialize button state on page load
-      updateWishlistButton(product);
     </script>
+
+    <!-- CART AND MESSAGE SYSTEM -->
+
+    <script>
+      // CART SYSTEM
+
+      async function addToCart() {
+        const user = auth.currentUser;
+
+        if (!user) {
+          showNotification("Please log in first.");
+          return;
+        }
+
+        const cartItemRef = doc(db, "users", user.uid, "cart", itemKey);
+
+        const cartItem = {
+          id: itemKey,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1,
+        };
+
+        await setDoc(cartItemRef, cartItem, { merge: true });
+
+        showNotification("Added to cart!");
+        updateCartCount();
+      }
+
+      async function buyNow() {
+        await addToCart();
+        window.location.href = "cart.html";
+      }
+
+      // MESSAGE SYSTEM
+      // Allows users to send a message to the seller
+
+      function openMessageBox() {
+        document.getElementById("messageModal").style.display = "flex";
+      }
+
+      function closeMessageBox() {
+        document.getElementById("messageModal").style.display = "none";
+      }
+
+      async function sendMessage() {
+        const message = document.getElementById("messageInput").value.trim();
+
+        if (!message) {
+          showNotification("Write a message first.");
+          return;
+        }
+
+        const user = auth.currentUser;
+
+        if (!user) {
+          showNotification("You must be logged in to message sellers.");
+          return;
+        }
+
+        const newMessage = {
+          productId: itemKey,
+          productName: product.name,
+          seller: product.sellerEmail || "seller",
+          senderEmail: user.email,
+          message: message,
+          createdAt: serverTimestamp(),
+        };
+
+        await addDoc(collection(db, "messages"), newMessage);
+
+        document.getElementById("messageInput").value = "";
+        closeMessageBox();
+
+        showNotification("Message sent successfully!");
+      }
+    </script>
+
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <!-- MESSAGE MODAL -->
+
+    <div id="messageModal" class="message-modal">
+      <div class="message-box">
+        <h3>Message Seller</h3>
+
+        <textarea
+          id="messageInput"
+          placeholder="Ask about size, condition, etc..."
+        ></textarea>
+
+        <div class="message-actions">
+          <button onclick="sendMessage()" class="send-btn">Send</button>
+          <button onclick="closeMessageBox()" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+
+      window.addToCart = addToCart;
+      window.buyNow = buyNow;
+      window.openMessageBox = openMessageBox;
+      window.closeMessageBox = closeMessageBox;
+      window.sendMessage = sendMessage;
+    </script>
+    <script type="module" src="../js/authState.js"></script>
   </body>
 </html>

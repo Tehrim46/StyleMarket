@@ -19,11 +19,34 @@
   </head>
 
   <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+
     <header>
       <nav class="nav-container">
         <div class="nav-logo">
           <a href="homepage.html">StyleMarket</a>
         </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
 
         <ul class="nav-left">
           <li class="dropdown">
@@ -57,6 +80,7 @@
               <a href="shoes.html?category=sandals">Sandals</a>
             </div>
           </li>
+
           <li class="dropdown">
             <a href="accessories.html">Accessories</a>
             <div class="dropdown-content">
@@ -70,21 +94,43 @@
           <li><a href="sell.html">Sell</a></li>
         </ul>
 
+        <!-- NAVIGATION ICONS -->
+
         <ul class="nav-right">
           <li class="icon">
-            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="../index.html"><i class="fas fa-user"></i></a>
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
           </li>
         </ul>
       </nav>
     </header>
 
-    <!-- MEN TOPS -->
+    <!-- MEN CATEGORY: TOPS -->
+
     <section id="tops" class="featured-products category-section">
       <h2>Men's Tops</h2>
 
@@ -181,7 +227,8 @@
       </div>
     </section>
 
-    <!-- MEN BOTTOMS -->
+    <!-- MEN CATEGORY: BOTTOMS -->
+
     <section id="bottoms" class="featured-products category-section">
       <h2>Men's Bottoms</h2>
 
@@ -278,7 +325,8 @@
       </div>
     </section>
 
-    <!-- MEN OUTERWEAR -->
+    <!-- MEN CATEGORY: OUTERWEAR -->
+
     <section id="outerwear" class="featured-products category-section">
       <h2>Men's Outerwear</h2>
 
@@ -375,7 +423,8 @@
       </div>
     </section>
 
-    <!-- MEN ACTIVEWEAR -->
+    <!-- MEN CATEGORY: ACTIVEWEAR -->
+
     <section id="activewear" class="featured-products category-section">
       <h2>Men's Activewear</h2>
 
@@ -460,22 +509,27 @@
       </div>
     </section>
 
-    <script>
-      // Get URL parameters
+    <!-- MAIN FUNCTIONALITY: category filtering, carousel movement, and uploaded product loading -->
+
+    <script type="module">
+      import { db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // CATEGORY FILTERING
+      // Shows the selected men's category from the URL, or Tops by default
+
       const params = new URLSearchParams(window.location.search);
-
-      // Get selected category from URL
       const category = params.get("category");
-
-      // Get all category sections on the page
       const sections = document.querySelectorAll(".category-section");
 
-      // Hide all sections first
       sections.forEach((section) => {
         section.style.display = "none";
       });
 
-      // Show selected category OR default to tops
       if (category) {
         const activeSection = document.getElementById(category);
         if (activeSection) {
@@ -485,29 +539,25 @@
         document.getElementById("tops").style.display = "block";
       }
 
-      // Store slider positions for each row
+      // CAROUSEL SLIDER LOGIC
+      // Shows 4 products at once and moves 2 products per click
+
       const sliderPositions = {};
 
-      // Function to move carousel left/right
       function slideRow(trackId, direction) {
         const track = document.getElementById(trackId);
-
-        // Get all product cards in this row
         const cards = track.querySelectorAll(".product-link");
 
         const visibleCards = 4;
         const moveBy = 2;
         const maxIndex = cards.length - visibleCards;
 
-        // Initialize position if not set
         if (!(trackId in sliderPositions)) {
           sliderPositions[trackId] = 0;
         }
 
-        // Move slider position
         sliderPositions[trackId] += direction * moveBy;
 
-        // Prevent going out of bounds
         if (sliderPositions[trackId] < 0) {
           sliderPositions[trackId] = 0;
         }
@@ -516,20 +566,14 @@
           sliderPositions[trackId] = maxIndex;
         }
 
-        // Calculate movement distance
         const cardWidth = cards[0].offsetWidth;
         const gap = parseInt(window.getComputedStyle(track).gap) || 20;
         const moveAmount = sliderPositions[trackId] * (cardWidth + gap);
 
-        // Apply movement
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
 
-      // Load uploaded men's products from localStorage
-      function getUploadedProducts() {
-        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
-      }
-
+      // Maps uploaded men's categories to the correct carousel row
       function getMenTrackId(categoryName) {
         const categoryMap = {
           "Men's Tops": "men-tops-track",
@@ -541,6 +585,7 @@
         return categoryMap[categoryName] || null;
       }
 
+      // Creates the HTML card for an uploaded product
       function createUploadedProductCard(product) {
         return `
       <a href="product.html?item=${product.id}" class="product-link uploaded-product">
@@ -553,8 +598,15 @@
     `;
       }
 
-      function renderUploadedMenProducts() {
-        const uploadedProducts = getUploadedProducts();
+      // Adds uploaded men's products into their matching category carousel
+      async function renderUploadedMenProducts() {
+        const snapshot = await getDocs(collection(db, "products"));
+
+        const uploadedProducts = [];
+
+        snapshot.forEach((doc) => {
+          uploadedProducts.push(doc.data());
+        });
 
         const menProducts = uploadedProducts.filter(
           (product) => product.category && product.category.startsWith("Men's"),
@@ -575,6 +627,34 @@
       }
 
       renderUploadedMenProducts();
+      window.slideRow = slideRow;
     </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
   </body>
 </html>

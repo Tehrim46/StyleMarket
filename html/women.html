@@ -19,12 +19,32 @@
   </head>
 
   <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
     <!-- NAVIGATION BAR -->
     <header>
       <nav class="nav-container">
         <div class="nav-logo">
           <a href="homepage.html">StyleMarket</a>
         </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
 
         <ul class="nav-left">
           <li class="dropdown">
@@ -74,20 +94,39 @@
 
         <ul class="nav-right">
           <li class="icon">
-            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="../index.html"><i class="fas fa-user"></i></a>
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
           </li>
+
           <li class="icon">
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
           </li>
         </ul>
       </nav>
     </header>
-    <!-- PRODUCT CATEGORY SECTIONS -->
+    <!-- WOMEN CATEGORY SECTIONS -->
 
-    <!-- TOPS -->
+    <!-- WOMEN CATEGORY: TOPS -->
     <section id="tops" class="featured-products category-section">
       <h2>Women's Tops</h2>
 
@@ -178,7 +217,7 @@
       </div>
     </section>
 
-    <!-- DRESSES -->
+    <!-- WOMEN CATEGORY: DRESSES -->
     <section id="dresses" class="featured-products category-section">
       <h2>Women's Dresses</h2>
 
@@ -248,7 +287,7 @@
       </div>
     </section>
 
-    <!-- BOTTOMS -->
+    <!-- WOMEN CATEGORY: BOTTOMS -->
     <section id="bottoms" class="featured-products category-section">
       <h2>Women's Bottoms</h2>
 
@@ -339,7 +378,7 @@
       </div>
     </section>
 
-    <!-- OUTERWEAR -->
+    <!-- WOMEN CATEGORY: OUTERWEAR -->
     <section id="outerwear" class="featured-products category-section">
       <h2>Women's Outerwear</h2>
 
@@ -436,7 +475,7 @@
       </div>
     </section>
 
-    <!-- ACTIVEWEAR -->
+    <!-- WOMEN CATEGORY: ACTIVEWEAR -->
     <section id="activewear" class="featured-products category-section">
       <h2>Women's Activewear</h2>
 
@@ -534,8 +573,18 @@
     </section>
 
     <!-- CATEGORY FILTER + CAROUSEL LOGIC -->
-    <script>
-      // Get selected category from URL
+
+    <script type="module">
+      import { db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // CATEGORY FILTERING
+      // Shows selected category from URL or defaults to Tops
+
       const params = new URLSearchParams(window.location.search);
       const category = params.get("category");
       const sections = document.querySelectorAll(".category-section");
@@ -553,9 +602,11 @@
         document.getElementById("tops").style.display = "block";
       }
 
+      // CAROUSEL SLIDER LOGIC
+      // Displays 4 items and moves 2 per click
+
       const sliderPositions = {};
 
-      // Carousel sliding functionality
       function slideRow(trackId, direction) {
         const track = document.getElementById(trackId);
         const cards = track.querySelectorAll(".product-link");
@@ -585,10 +636,8 @@
         track.style.transform = `translateX(-${moveAmount}px)`;
       }
 
-      // Load uploaded women's products from localStorage
-      function getUploadedProducts() {
-        return JSON.parse(localStorage.getItem("uploadedProducts")) || [];
-      }
+      // CATEGORY MAPPING
+      // Maps women's categories to the correct carousel row
 
       function getWomenTrackId(categoryName) {
         const categoryMap = {
@@ -602,6 +651,9 @@
         return categoryMap[categoryName] || null;
       }
 
+      // PRODUCT CARD CREATION
+      // Creates the HTML card for an uploaded product
+
       function createUploadedProductCard(product) {
         return `
       <a href="product.html?item=${product.id}" class="product-link uploaded-product">
@@ -614,8 +666,17 @@
     `;
       }
 
-      function renderUploadedWomenProducts() {
-        const uploadedProducts = getUploadedProducts();
+      // RENDER UPLOADED PRODUCTS
+      // Adds uploaded women's products into their matching category carousel
+
+      async function renderUploadedWomenProducts() {
+        const snapshot = await getDocs(collection(db, "products"));
+
+        const uploadedProducts = [];
+
+        snapshot.forEach((doc) => {
+          uploadedProducts.push(doc.data());
+        });
 
         const womenProducts = uploadedProducts.filter(
           (product) =>
@@ -637,6 +698,34 @@
       }
 
       renderUploadedWomenProducts();
+      window.slideRow = slideRow;
     </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
   </body>
 </html>
