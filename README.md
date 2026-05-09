@@ -4,52 +4,64 @@ StyleMarket is a web-based buy-and-sell platform designed to provide a simple an
 
 # System Architecture (High-Level)
 - Frontend: HTML, CSS, and JavaScript
-- Backend Services: Firebase Authentication & Firebase Realtime Database
-- Design Process: Wireframes and UI planning created on paper and in GoodNotes before implementation
+- Backend Services: Firebase Authentication, Cloud Firestore Database and Stripe Checkout API
+- Design Process: Wireframes and UI planning created using sketches and GoodNotes before development
 - Development: Implemented in VS Code and used Live Server
-- Data Handling: localStorage used for cart, wishlist, search history, and temporary product storage
-- Version Control: GitHub for task tracking and collaboration
+- Data Handling: Cloud Firestore used for products, cart, orders, rewards, and user data. localStorage used for cart, wishlist, search history, and temporary product storage
+- Version Control: GitHub for collaboration, version tracking, and deployment preparation
 
 # Phases
 Phase 1 – Planning & Setup:
 
-- Planned site layout and user flow using sketches and GoodNotes
+- Planned website structure and user navigation using sketches and wireframes
 - Set up project structure in VS Code (HTML, JS, CSS, and file organization)
 - Initialized GitHub repository and task tracking system
-- Designed and implemented the login page UI consistent with site theme
+- Designed and implemented login/signup interface UI consistent with site theme
 
 Phase 2 – Development & Design:
 
-- Built homepage, product pages, sell page, and help section using HTML/CSS
-- Developed category pages (Women, Men, Shoes, Accessories & Sell) with dropdown filtering
-- Created reusable product card layout for consistent UI
-- Integrated JavaScript to dynamically display products (localStorage-based data handling)
+- Built homepage, product pages, sell page, wishlist, cart, account pages and help section using HTML, CSS and JS
+- Developed category pages (Women, Men, Shoes, Accessories & Sell) with dropdown navigation
+- Created reusable product card system for consistent UI design
+- Implemented dynamic product rendering using JavaScript
 
 Phase 3 – Styling & UX:
 
 - Applied CSS styling for layout consistency, spacing, and responsiveness
-- Improved alignment, font sizing, and visual hierarchy
-- Enhanced navigation UX (dropdown menus, smooth scrolling “Shop Now” button)
-- Standardized design across all pages (colors, typography, spacing)
+- Improved responsiveness, alignment, font sizing, and visual hierarchy
+- Added dropdown menus, search functionality, smooth navigation, and hover interactions
+- Standardized branding and pink-themed visual identity across all pages
 
 Phase 4 – Testing & Debugging:
 
-- Fixed navigation issues caused by inconsistent file naming
+- Fixed navigation and file path inconsistencies
 - Resolved caching issues with Live Server
-- Tested all links and layouts for consistency
-- Refactored structure for cleaner, maintainable code
+- Tested all layouts, links, and interactive components
+- Refactored JavaScript and page structure for maintainability
 
 Phase 5 – Backend & Firebase Integration
 
-- Configured and connected Firebase services to the application
-- Implemented Firebase Authentication for secure login/signup functionality
-- Integrated Firebase Realtime Database for backend data handling
+- Configured Firebase Authentication for secure user login/signup
+- Integrated Cloud Firestore for product, cart, reward, and order storage
 - Connected frontend components to Firebase using JavaScript APIs
+- Implemented persistent cart and wishlist functionality
+- Added reward system and order history tracking
+
+Phase 6 – Stripe Checkout Integration
+
+- Integrated Stripe Checkout API for secure payment processing
+- Implemented discounted checkout flow with rewards support
+- Added successful payment handling and order confirmation logic
+- Connected Stripe payment completion with Firestore order storage
 
 # Installation & Execution Instructions
 
-Project is still in development, but most core features are completed. Follow the steps below to run locally:
+- 1. Clone the repository
+- 2. Open the project in VS Code
+- 3. Run frontend using Live Server
+  4. Start backend server;
 
-- Clone the repository
-- Open the project in VS Code
-- Run using Live Server
+  cd backend
+  node server.js
+  
+  5. Launch the website locally and access all marketplace features through the integrated Firebase and Stripe systems.
