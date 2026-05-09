@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details | StyleMarket</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+
+    <header>
+      <nav class="nav-container">
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
+
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <!-- NAVIGATION ICONS -->
+
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- PRODUCT DETAIL PAGE -->
+
+    <section class="product-detail-page">
+      <div class="product-detail-container">
+        <div class="product-detail-image">
+          <img id="productImage" src="" alt="" />
+        </div>
+
+        <div class="product-detail-info">
+          <h1 id="productName">Loading product...</h1>
+
+          <button class="wishlist-btn-detail" id="wishlistBtn">
+            <i class="fa-regular fa-heart"></i> Save
+          </button>
+
+          <p class="product-price" id="productPrice"></p>
+          <p class="product-condition" id="productCondition"></p>
+          <p class="product-category" id="productCategory"></p>
+          <p class="product-color" id="productColor"></p>
+          <p class="product-size" id="productSize"></p>
+
+          <div class="description-section">
+            <h3>Description:</h3>
+            <p id="productDescription"></p>
+          </div>
+
+          <div class="product-buttons">
+            <button class="add-cart-btn" onclick="addToCart()">
+              Add To Cart
+            </button>
+            <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+            <button class="message-btn" onclick="openMessageBox()">
+              Message Seller
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN FUNCTIONALITY: product loading and wishlist system -->
+
+    <script src="../js/products.js"></script>
+
+    <script type="module">
+      import { auth, db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+        addDoc,
+        deleteDoc,
+        doc,
+        setDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // PRODUCT DATA LOADING
+      // Gets product from URL and combines default + uploaded products
+
+      const params = new URLSearchParams(window.location.search);
+      const itemKey = params.get("item");
+
+      const snapshot = await getDocs(collection(db, "products"));
+
+      const uploadedProductsMap = {};
+
+      snapshot.forEach((doc) => {
+        const productData = doc.data();
+        uploadedProductsMap[productData.id] = productData;
+      });
+
+      const allProducts = {
+        ...window.products,
+        ...uploadedProductsMap,
+      };
+
+      const product = allProducts[itemKey];
+
+      if (!product) {
+        document.querySelector(".product-detail-info").innerHTML = `
+    <h1>Product Not Found</h1>
+    <p>This product could not be loaded. Please go back and select another item.</p>
+    <a href="homepage.html" class="wishlist-shop-link">Continue Shopping</a>
+  `;
+      }
+
+      // PRODUCT DISPLAY
+      // Inserts product details into the page
+      else {
+        document.getElementById("productName").textContent = product.name;
+        document.getElementById("productPrice").textContent = product.price;
+        document.getElementById("productCondition").innerHTML =
+          "<strong>Condition:</strong> " + product.condition;
+        document.getElementById("productSize").innerHTML =
+          "<strong>Size:</strong> " + product.size;
+        document.getElementById("productImage").src = product.image;
+        document.getElementById("productCategory").innerHTML =
+          "<strong>Category:</strong> " + product.category;
+        document.getElementById("productColor").innerHTML =
+          "<strong>Color:</strong> " + product.color;
+        document.getElementById("productDescription").textContent =
+          product.description;
+
+        updateWishlistButton(product);
+      }
+
+      // WISHLIST SYSTEM
+
+      async function addToWishlist(item) {
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        const snapshot = await getDocs(
+          collection(db, "users", user.uid, "wishlist"),
+        );
+
+        let exists = false;
+
+        snapshot.forEach((doc) => {
+          if (doc.data().name === item.name) {
+            exists = true;
+          }
+        });
+
+        if (!exists) {
+          await addDoc(collection(db, "users", user.uid, "wishlist"), item);
+        }
+      }
+
+      async function removeFromWishlist(name) {
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        const snapshot = await getDocs(
+          collection(db, "users", user.uid, "wishlist"),
+        );
+
+        for (const wishlistDoc of snapshot.docs) {
+          if (wishlistDoc.data().name === name) {
+            await deleteDoc(
+              doc(db, "users", user.uid, "wishlist", wishlistDoc.id),
+            );
+          }
+        }
+      }
+
+      async function isInWishlist(name) {
+        const user = auth.currentUser;
+
+        if (!user) return false;
+
+        const snapshot = await getDocs(
+          collection(db, "users", user.uid, "wishlist"),
+        );
+
+        let exists = false;
+
+        snapshot.forEach((doc) => {
+          if (doc.data().name === name) {
+            exists = true;
+          }
+        });
+
+        return exists;
+      }
+
+      async function updateWishlistButton(product) {
+        const btn = document.getElementById("wishlistBtn");
+
+        if (await isInWishlist(product.name)) {
+          btn.innerHTML = '<i class="fa-solid fa-heart"></i> Saved';
+          btn.classList.add("active");
+        } else {
+          btn.innerHTML = '<i class="fa-regular fa-heart"></i> Save';
+          btn.classList.remove("active");
+        }
+      }
+
+      window.product = product;
+      window.itemKey = itemKey;
+
+      window.isInWishlist = isInWishlist;
+      window.addToWishlist = addToWishlist;
+      window.removeFromWishlist = removeFromWishlist;
+      window.updateWishlistButton = updateWishlistButton;
+
+      window.auth = auth;
+      window.db = db;
+      window.addDoc = addDoc;
+      window.collection = collection;
+      window.serverTimestamp = serverTimestamp;
+      window.doc = doc;
+      window.setDoc = setDoc;
+    </script>
+
+    <!-- WISHLIST BUTTON INTERACTION -->
+
+    <script>
+      // Toggles wishlist state when button is clicked
+
+      const wishlistBtn = document.getElementById("wishlistBtn");
+
+      wishlistBtn.addEventListener("click", async function () {
+        const itemData = {
+          id: itemKey,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+        };
+
+        if (await isInWishlist(product.name)) {
+          await removeFromWishlist(product.name);
+        } else {
+          await addToWishlist(itemData);
+        }
+
+        await updateWishlistButton(product);
+      });
+    </script>
+
+    <!-- CART AND MESSAGE SYSTEM -->
+
+    <script>
+      // CART SYSTEM
+
+      async function addToCart() {
+        const user = auth.currentUser;
+
+        if (!user) {
+          showNotification("Please log in first.");
+          return;
+        }
+
+        const cartItemRef = doc(db, "users", user.uid, "cart", itemKey);
+
+        const cartItem = {
+          id: itemKey,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1,
+        };
+
+        await setDoc(cartItemRef, cartItem, { merge: true });
+
+        showNotification("Added to cart!");
+        updateCartCount();
+      }
+
+      async function buyNow() {
+        await addToCart();
+        window.location.href = "cart.html";
+      }
+
+      // MESSAGE SYSTEM
+      // Allows users to send a message to the seller
+
+      function openMessageBox() {
+        document.getElementById("messageModal").style.display = "flex";
+      }
+
+      function closeMessageBox() {
+        document.getElementById("messageModal").style.display = "none";
+      }
+
+      async function sendMessage() {
+        const message = document.getElementById("messageInput").value.trim();
+
+        if (!message) {
+          showNotification("Write a message first.");
+          return;
+        }
+
+        const user = auth.currentUser;
+
+        if (!user) {
+          showNotification("You must be logged in to message sellers.");
+          return;
+        }
+
+        const newMessage = {
+          productId: itemKey,
+          productName: product.name,
+          seller: product.sellerEmail || "seller",
+          senderEmail: user.email,
+          message: message,
+          createdAt: serverTimestamp(),
+        };
+
+        await addDoc(collection(db, "messages"), newMessage);
+
+        document.getElementById("messageInput").value = "";
+        closeMessageBox();
+
+        showNotification("Message sent successfully!");
+      }
+    </script>
+
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <!-- MESSAGE MODAL -->
+
+    <div id="messageModal" class="message-modal">
+      <div class="message-box">
+        <h3>Message Seller</h3>
+
+        <textarea
+          id="messageInput"
+          placeholder="Ask about size, condition, etc..."
+        ></textarea>
+
+        <div class="message-actions">
+          <button onclick="sendMessage()" class="send-btn">Send</button>
+          <button onclick="closeMessageBox()" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+
+      window.addToCart = addToCart;
+      window.buyNow = buyNow;
+      window.openMessageBox = openMessageBox;
+      window.closeMessageBox = closeMessageBox;
+      window.sendMessage = sendMessage;
+    </script>
+    <script type="module" src="../js/authState.js"></script>
+  </body>
+</html>

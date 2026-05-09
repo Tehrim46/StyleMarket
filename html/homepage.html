@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StyleMarket</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+
+    <header>
+      <nav class="nav-container">
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
+
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <!-- NAVIGATION ICONS -->
+
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- MAIN HOMEPAGE CONTENT -->
+
+    <main>
+      <!-- HERO SECTION -->
+
+      <section class="welcome">
+        <div class="welcome-overlay">
+          <h2>Welcome To StyleMarket</h2>
+          <p>Discover the latest fashion trends</p>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </section>
+
+      <!-- FEATURED PRODUCTS SECTION -->
+
+      <section class="featured-products" id="new-arrivals">
+        <h2>Shop New Arrivals</h2>
+        <div class="product-grid" id="new-arrivals-grid"></div>
+      </section>
+    </main>
+
+    <!-- FOOTER SECTION -->
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        <!-- FOOTER LINKS -->
+
+        <div class="footer-left">
+          <a href="info.html?section=about">About Us</a>
+          <a href="info.html?section=faqs">FAQs</a>
+          <a href="info.html?section=contact">Contact Us</a>
+          <a href="info.html?section=returns">Return & Exchange Policy</a>
+          <a href="info.html?section=support">Customer Support</a>
+          <a href="info.html?section=privacy">Legal & Privacy</a>
+        </div>
+
+        <!-- MEMBER SIGN-UP SECTION -->
+
+        <div class="footer-right">
+          <h3>Become a Member</h3>
+
+          <p class="member-text">
+            Join StyleMarket to receive exclusive offers and updates!
+          </p>
+
+          <form class="member-form" id="rewardsForm">
+            <input
+              type="email"
+              id="rewardsEmail"
+              placeholder="Email Address"
+              required
+            />
+          </form>
+
+          <p id="rewardsMessage" class="rewards-message"></p>
+
+          <p class="member-signin">
+            Already a member? <a href="../index.html">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MAIN FUNCTIONALITY: new arrivals, rewards signup, and auth state -->
+
+    <script type="module">
+      import { auth, db } from "../js/firebase.js";
+
+      import {
+        collection,
+        getDocs,
+        query,
+        orderBy,
+        limit,
+        doc,
+        setDoc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // DEFAULT NEW ARRIVALS
+      // Shows these products when there are no uploaded listings
+
+      const defaultNewArrivals = [
+        {
+          id: "floraldress",
+          name: "Floral Dress",
+          price: "$65",
+          image: "../images/floral dress StyleMarket.webp",
+        },
+        {
+          id: "hightops",
+          name: "Classic Sneakers",
+          price: "$85",
+          image: "../images/hightop.webp",
+        },
+        {
+          id: "baseballcap",
+          name: "Baseball Cap",
+          price: "$65",
+          image: "../images/bluecap.webp",
+        },
+        {
+          id: "oversizedhoodie",
+          name: "Oversized Hoodie",
+          price: "$55",
+          image: "../images/oversizedhoodie.jpeg",
+        },
+      ];
+
+      // SHOP BUTTON SCROLL
+      // Moves user to New Arrivals section
+
+      const shopBtn = document.querySelector(".shop-btn");
+
+      if (shopBtn) {
+        shopBtn.addEventListener("click", () => {
+          document
+            .getElementById("new-arrivals")
+            .scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
+      async function renderNewArrivals() {
+        const grid = document.getElementById("new-arrivals-grid");
+
+        if (!grid) return;
+
+        try {
+          const productsQuery = query(
+            collection(db, "products"),
+            orderBy("uploadedAt", "desc"),
+            limit(4),
+          );
+
+          const snapshot = await getDocs(productsQuery);
+
+          let productsToShow = [];
+
+          snapshot.forEach((doc) => {
+            productsToShow.push(doc.data());
+          });
+
+          if (productsToShow.length < 4) {
+            productsToShow = [
+              ...productsToShow,
+              ...defaultNewArrivals.slice(0, 4 - productsToShow.length),
+            ];
+          }
+
+          grid.innerHTML = productsToShow
+            .map(
+              (product) => `
+                <a href="product.html?item=${product.id}" class="product-link">
+                  <div class="product-card">
+                    <img src="${product.image}" class="product-img" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.price}</p>
+                  </div>
+                </a>
+              `,
+            )
+            .join("");
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      // REWARDS SIGNUP
+      // Stores email and assigns reward code
+
+      const rewardsForm = document.getElementById("rewardsForm");
+      const rewardsEmail = document.getElementById("rewardsEmail");
+      const rewardsMessage = document.getElementById("rewardsMessage");
+
+      if (rewardsForm) {
+        rewardsForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const email = rewardsEmail.value.trim();
+
+          if (!email) {
+            rewardsMessage.textContent = "Please enter your email.";
+            return;
+          }
+
+          const user = auth.currentUser;
+
+          if (!user) {
+            rewardsMessage.textContent = "Please log in to join rewards.";
+            return;
+          }
+
+          const rewardRef = doc(
+            db,
+            "users",
+            user.uid,
+            "rewards",
+            "activeReward",
+          );
+
+          const rewardSnap = await getDoc(rewardRef);
+
+          if (rewardSnap.exists()) {
+            const rewardData = rewardSnap.data();
+
+            if (rewardData.used) {
+              rewardsMessage.textContent = "You already used this reward.";
+              return;
+            }
+
+            if (rewardData.active) {
+              rewardsMessage.textContent = "You are already a rewards member.";
+              return;
+            }
+          }
+
+          await setDoc(rewardRef, {
+            email: email,
+            code: "STYLE10",
+            discount: "10% off your first order",
+            active: true,
+            used: false,
+            applied: false,
+          });
+
+          rewardsMessage.textContent =
+            "Welcome to StyleMarket Rewards! Your reward code is STYLE10.";
+
+          rewardsForm.reset();
+        });
+      }
+
+      renderNewArrivals();
+    </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
+  </body>
+</html>

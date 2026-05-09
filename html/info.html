@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StyleMarket Info</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+
+    <header>
+      <nav class="nav-container">
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
+
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <!-- NAVIGATION ICONS -->
+
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- MAIN INFO CONTENT -->
+
+    <main>
+      <!-- HERO SECTION -->
+
+      <section class="info-hero">
+        <div class="info-hero-content">
+          <h1 id="infoTitle">StyleMarket Information</h1>
+          <p id="infoSubtitle">
+            Learn more about our platform, policies, and support.
+          </p>
+        </div>
+      </section>
+
+      <!-- INFO PAGE LAYOUT -->
+
+      <section class="info-section">
+        <div class="info-container">
+          <!-- SIDEBAR NAVIGATION -->
+
+          <aside class="info-sidebar">
+            <a href="info.html?section=about">About Us</a>
+            <a href="info.html?section=faqs">FAQs</a>
+            <a href="info.html?section=contact">Contact Us</a>
+            <a href="info.html?section=returns">Return & Exchange Policy</a>
+            <a href="info.html?section=support">Customer Support</a>
+            <a href="info.html?section=privacy">Legal & Privacy</a>
+          </aside>
+
+          <!-- DYNAMIC CONTENT AREA -->
+
+          <div class="info-content" id="content"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER SECTION -->
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        <!-- FOOTER LINKS -->
+
+        <div class="footer-left">
+          <a href="info.html?section=about">About Us</a>
+          <a href="info.html?section=faqs">FAQs</a>
+          <a href="info.html?section=contact">Contact Us</a>
+          <a href="info.html?section=returns">Return & Exchange Policy</a>
+          <a href="info.html?section=support">Customer Support</a>
+          <a href="info.html?section=privacy">Legal & Privacy</a>
+        </div>
+
+        <!-- MEMBER SIGN-UP SECTION -->
+
+        <div class="footer-right">
+          <h3>Become a Member</h3>
+          <p class="member-text">
+            Join StyleMarket to receive exclusive offers and updates!
+          </p>
+
+          <form class="member-form">
+            <input type="email" placeholder="Email Address" required />
+          </form>
+
+          <p class="member-signin">
+            Already a member? <a href="../index.html">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MAIN FUNCTIONALITY: dynamic content loading and auth state -->
+
+    <script>
+      // SECTION ROUTING
+      // Loads page content based on the selected URL section
+
+      const params = new URLSearchParams(window.location.search);
+      const section = params.get("section");
+      const content = document.getElementById("content");
+
+      if (section === "about") {
+        content.innerHTML = `
+          <h1>About StyleMarket</h1>
+          <p>
+            StyleMarket is an online platform that makes buying and selling second hand clothing simple and accessible. Our goal is to connect people who want to give their clothes a second life with shoppers looking for affordable and unique fashion.
+            Users can create accounts, list items for sale, and browse clothing posted by others. Each listing includes images, price, size, brand, condition, and a short description so buyers can make confident decisions.
+            StyleMarket is built as a modern web application that reflects real world design. It includes secure login, organized product listings, and search tools that help users find items by category, size, brand, or price.
+            Our mission is to make fashion more affordable and sustainable by extending the life of clothing.
+          </p>
+        `;
+      } else if (section === "faqs") {
+        content.innerHTML = `
+          <h1>Frequently Asked Questions</h1>
+
+          <h3>What is StyleMarket?</h3>
+          <p>StyleMarket is an online marketplace that allows users to buy and sell second-hand clothing in a simple and affordable way. 
+            The platform connects sellers looking to list their items with buyers searching for unique, budget friendly fashion. 
+            It promotes sustainability by giving clothing a second life instead of being thrown away.</p>
+
+          <h3>How do I create an account?</h3>
+          <p>To create an account, click the Sign Up button on the homepage. 
+            You’ll be asked to enter basic information such as your name, email address, and password. 
+            Once submitted, your account will be created and you’ll be able to log in, browse items, and start buying or selling.</p>
+
+          <h3>How do I sell an item?</h3>
+          <p>After logging into your account, go to the Sell section and upload your item. 
+            You will need to include clear images, set a price, and provide details such as size, brand, condition, and a short description. 
+            The more detailed and accurate your listing is, the more likely it is to attract buyers.</p>
+
+          <h3>How do I find items?</h3>
+          <p>You can browse items by selecting categories such as Women, Men, Shoes, or Accessories.
+            You can also use the search bar and apply filters like size, price range, and brand to quickly find exactly what you're looking for. 
+            This makes it easy to navigate and discover items that match your style.</p>
+
+          <h3>Is it safe to buy from StyleMarket?</h3>
+          <p>Yes, the platform uses secure login and clear item listings to create a reliable experience.</p>
+        `;
+      } else if (section === "contact") {
+        content.innerHTML = `
+          <h1>Contact Us</h1>
+          <p>If you have any questions, feedback, or issues, we would love to hear from you.</p>
+
+          <p><strong>Email:</strong> support@stylemarket.com</p>
+          <p><strong>Phone:</strong> (929) 456-7866</p>
+          <p><strong>Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM</p>
+
+          <h3>Get in Touch</h3>
+          <p>Please reach out to us and our team will respond as soon as possible.</p>
+        `;
+      } else if (section === "returns") {
+        content.innerHTML = `
+          <h1>Return & Exchange Policy</h1>
+          <p>
+            Items may be returned or exchanged within 7 days of delivery as long as they are in
+            their original condition. Products that are damaged, worn, or missing original details may not qualify for a
+            return or exchange. Final sale items are not eligible for return. Customers should contact support to begin
+            the return process.
+          </p>
+        `;
+      } else if (section === "support") {
+        content.innerHTML = `
+          <h1>Customer Support</h1>
+          <p>
+            Our support team is here to help with orders, account issues, product questions, and
+            general concerns.
+          </p>
+          <p><strong>Email:</strong> help@stylemarket.com</p>
+          <p><strong>Support Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM</p>
+          <p>
+            Please include your name, account email, and a short explanation of your issue when
+            contacting us.
+          </p>
+        `;
+      } else if (section === "privacy") {
+        content.innerHTML = `
+          <h1>Legal & Privacy</h1>
+
+          <p>
+            We are committed to protecting your personal information and keeping your data secure. 
+            StyleMarket does not sell or share your data without your permission. All users are expected 
+            to provide accurate information when creating listings and using the platform.
+          </p>
+
+          <p>
+            Sellers are responsible for handling shipping, including costs and delivery times. 
+            Buyers should review item details carefully before purchasing. We support secure 
+            payments through credit/debit cards and services like PayPal to ensure safe transactions.
+          </p>
+
+          <p>
+            Users must follow all platform rules, maintain account security, and avoid harmful or 
+            misleading activity. Sellers should provide clear images and accurate descriptions. 
+            Buyers should carefully review product details and communicate with sellers before purchasing to ensure the item meets their expectations.
+          </p>
+        `;
+      } else {
+        content.innerHTML = `
+    <h1>About StyleMarket</h1>
+    <p>
+      StyleMarket is an online platform that makes buying and selling second hand clothing simple and accessible. Our goal is to connect people who want to give their clothes a second life with shoppers looking for affordable and unique fashion.
+      Users can create accounts, list items for sale, and browse clothing posted by others. Each listing includes images, price, size, brand, condition, and a short description so buyers can make confident decisions.
+      StyleMarket is built as a modern web application that reflects real world design. It includes secure login, organized product listings, and search tools that help users find items by category, size, brand, or price.
+      Our mission is to make fashion more affordable and sustainable by extending the life of clothing.
+    </p>
+  `;
+      }
+    </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
+  </body>
+</html>

@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sell | StyleMarket</title>
+
+    <link rel="stylesheet" href="../CSS/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body class="homepage-body">
+    <!-- GLOBAL SEARCH PANEL -->
+
+    <div id="searchPanel" class="search-panel">
+      <div class="search-header">
+        <input id="searchInput" placeholder="Search..." />
+        <span class="close-btn" onclick="closeSearch()">×</span>
+      </div>
+
+      <div class="recent-searches">
+        <div class="recent-header">
+          <h4>Recent Searches</h4>
+          <button onclick="clearRecentSearches()">Clear All</button>
+        </div>
+        <div id="recentList"></div>
+      </div>
+
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- MAIN NAVIGATION BAR -->
+
+    <header>
+      <nav class="nav-container">
+        <div class="nav-logo">
+          <a href="homepage.html">StyleMarket</a>
+        </div>
+
+        <!-- CATEGORY NAVIGATION LINKS -->
+
+        <ul class="nav-left">
+          <li class="dropdown">
+            <a href="women.html">Women</a>
+            <div class="dropdown-content">
+              <a href="women.html?category=tops">Tops</a>
+              <a href="women.html?category=dresses">Dresses</a>
+              <a href="women.html?category=bottoms">Bottoms</a>
+              <a href="women.html?category=outerwear">Outerwear</a>
+              <a href="women.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="men.html">Men</a>
+            <div class="dropdown-content">
+              <a href="men.html?category=tops">Tops</a>
+              <a href="men.html?category=bottoms">Bottoms</a>
+              <a href="men.html?category=outerwear">Outerwear</a>
+              <a href="men.html?category=activewear">Activewear</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="shoes.html">Shoes</a>
+            <div class="dropdown-content">
+              <a href="shoes.html?category=sneakers">Sneakers</a>
+              <a href="shoes.html?category=heels">Heels</a>
+              <a href="shoes.html?category=flats">Flats</a>
+              <a href="shoes.html?category=boots">Boots</a>
+              <a href="shoes.html?category=sandals">Sandals</a>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <a href="accessories.html">Accessories</a>
+            <div class="dropdown-content">
+              <a href="accessories.html?category=bags">Bags</a>
+              <a href="accessories.html?category=jewelry">Jewelry</a>
+              <a href="accessories.html?category=hats">Hats</a>
+              <a href="accessories.html?category=scarves">Scarves</a>
+            </div>
+          </li>
+
+          <li><a href="sell.html">Sell</a></li>
+        </ul>
+
+        <!-- NAVIGATION ICONS -->
+
+        <ul class="nav-right">
+          <li class="icon">
+            <a href="#" onclick="openSearch()" title="Search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="account.html" id="accountIcon" title="Account">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="wishlist.html" title="Wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
+          </li>
+
+          <li class="icon">
+            <a href="cart.html" class="cart-icon" title="Cart">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">0</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="../index.html" class="account-btn" id="authBtn">Log In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- SELL HERO SECTION -->
+
+    <section class="sell-hero">
+      <div class="sell-hero-content">
+        <h1>Sell On StyleMarket</h1>
+        <p>List your clothing, shoes, and accessories in just a few steps.</p>
+      </div>
+    </section>
+
+    <!-- SELL FORM SECTION -->
+
+    <section class="sell-page">
+      <div class="sell-container">
+        <h2>List Your Item</h2>
+
+        <!-- LISTING FORM -->
+
+        <form class="sell-form" id="sellForm">
+          <!-- FORM INPUT GRID -->
+
+          <div class="sell-grid">
+            <div class="sell-field">
+              <label for="itemName">Item Name</label>
+              <input
+                type="text"
+                id="itemName"
+                placeholder="Ex. Ribbed Tank Top"
+              />
+            </div>
+
+            <div class="sell-field">
+              <label for="price">Price</label>
+              <input type="number" id="price" placeholder="Ex. 25" />
+            </div>
+
+            <div class="sell-field">
+              <label for="category">Category</label>
+              <select id="category">
+                <option value="">Select Category</option>
+                <option>Women's Tops</option>
+                <option>Women's Dresses</option>
+                <option>Women's Bottoms</option>
+                <option>Women's Outerwear</option>
+                <option>Women's Activewear</option>
+                <option>Men's Tops</option>
+                <option>Men's Bottoms</option>
+                <option>Men's Outerwear</option>
+                <option>Men's Activewear</option>
+                <option>Sneakers</option>
+                <option>Heels</option>
+                <option>Flats</option>
+                <option>Boots</option>
+                <option>Sandals</option>
+                <option>Bags</option>
+                <option>Jewelry</option>
+                <option>Hats</option>
+                <option>Scarves</option>
+              </select>
+            </div>
+
+            <div class="sell-field">
+              <label for="condition">Condition</label>
+              <select id="condition">
+                <option value="">Select Condition</option>
+                <option>New With Tags</option>
+                <option>New Without Tags</option>
+                <option>Excellent Condition</option>
+                <option>Worn Once</option>
+                <option>Good Condition</option>
+                <option>Used</option>
+              </select>
+            </div>
+
+            <div class="sell-field">
+              <label for="size">Size</label>
+              <input
+                type="text"
+                id="size"
+                placeholder="Ex. Small, Medium, Large, 8, One Size"
+              />
+            </div>
+
+            <div class="sell-field">
+              <label for="color">Color</label>
+              <input type="text" id="color" placeholder="Ex. Black" />
+            </div>
+          </div>
+
+          <!-- IMAGE UPLOAD -->
+
+          <div class="sell-field full-width">
+            <label for="image">Upload Image</label>
+            <input type="file" id="image" />
+            <img
+              id="previewImage"
+              style="width: 150px; display: none; margin-top: 10px"
+            />
+          </div>
+
+          <!-- ITEM DESCRIPTION -->
+
+          <div class="sell-field full-width">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              rows="6"
+              placeholder="Describe your item..."
+            ></textarea>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+
+          <button type="submit" class="sell-btn">Post Listing</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- MAIN FUNCTIONALITY: image upload, product creation, and form submission -->
+
+    <script type="module">
+      import { auth, db } from "../js/firebase.js";
+
+      import {
+        collection,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      // PRODUCT ID CREATION
+      // Converts item name into a clean product id
+
+      function createProductId(name) {
+        return name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+      }
+
+      // IMAGE FILE READER
+      // Converts uploaded image into data that can be saved
+
+      function readImageFile(file) {
+        return new Promise((resolve, reject) => {
+          if (!file) {
+            resolve("");
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+            resolve(event.target.result);
+          };
+
+          reader.onerror = function () {
+            reject("Image failed to load.");
+          };
+
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // IMAGE PREVIEW
+      // Shows selected image before the listing is posted
+
+      document.getElementById("image").addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            const preview = document.getElementById("previewImage");
+            preview.src = e.target.result;
+            preview.style.display = "block";
+          };
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // FORM SUBMISSION
+      // Validates listing fields and saves new product to localStorage
+
+      document
+        .getElementById("sellForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const itemName = document.getElementById("itemName").value.trim();
+          const price = document.getElementById("price").value.trim();
+          const category = document.getElementById("category").value.trim();
+          const condition = document.getElementById("condition").value.trim();
+          let size = document.getElementById("size").value.trim();
+
+          const sizeMap = {
+            s: "Small",
+            m: "Medium",
+            l: "Large",
+          };
+
+          size = sizeMap[size.toLowerCase()] || size;
+          const color = document.getElementById("color").value.trim();
+          const description = document
+            .getElementById("description")
+            .value.trim();
+          const imageFile = document.getElementById("image").files[0];
+
+          if (
+            !itemName ||
+            !price ||
+            !category ||
+            !condition ||
+            !size ||
+            !color ||
+            !description ||
+            !imageFile
+          ) {
+            showNotification("Please fill out all fields.");
+            return;
+          }
+
+          try {
+            const imageData = await readImageFile(imageFile);
+
+            const newProduct = {
+              id: createProductId(itemName) + Date.now(),
+              name: itemName,
+              price: price.startsWith("$") ? price : "$" + price,
+              image: imageData,
+              category: category,
+              condition: condition,
+              size: size,
+              color: color,
+              description: description,
+              uploadedAt: Date.now(),
+            };
+
+            const user = auth.currentUser;
+
+            if (!user) {
+              showNotification("You must be logged in to post a listing.");
+              return;
+            }
+
+            await addDoc(collection(db, "products"), {
+              ...newProduct,
+              sellerId: user.uid,
+              sellerEmail: user.email,
+            });
+
+            showNotification("Item posted successfully!");
+
+            document.getElementById("sellForm").reset();
+
+            const preview = document.getElementById("previewImage");
+
+            preview.src = "";
+            preview.style.display = "none";
+
+            setTimeout(() => {
+              window.location.href = "homepage.html";
+            }, 2000);
+          } catch (error) {
+            showNotification("Image upload failed.");
+            console.error(error);
+          }
+        });
+    </script>
+
+    <script src="../js/products.js"></script>
+    <script type="module" src="../js/globalSearch.js"></script>
+
+    <div id="notification" class="custom-notification">
+      <i class="fa-solid fa-circle-check"></i>
+      <span id="notificationText"></span>
+    </div>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notificationText");
+
+        notificationText.textContent = message;
+
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+
+      window.showNotification = showNotification;
+    </script>
+
+    <script type="module" src="../js/authState.js"></script>
+  </body>
+</html>
